@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=M+PLUS+Rounded+1c:wght@600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=vibe_mobile_nav_v7">
+  <link rel="stylesheet" href="style.css?v=vibe_ready_v8">
 </head>
 <body>
 
@@ -149,7 +149,13 @@
             自分で入れる場合：<a href="https://nodejs.org/" target="_blank" rel="noopener">Node.js公式サイト</a>で「LTS（推奨版）」をダウンロードし、インストーラーを「次へ」で進めるだけで完了します。
           </p>
 
-          <div class="setup-tip">
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; margin-top: 8px; font-size: 12px; color: var(--text-body); line-height: 1.6;">
+            <strong>❓ Remotionはどこで発動するの？設定は？</strong><br>
+            Premiereのような編集アプリを起動する必要はありません！フルHD・30fps・デザインなどの<strong>設定は全て最初から完了済み</strong>。<br>
+            あなたがチャットで指示すると、AIが裏で <code>npm run render</code> コマンドを叩いて自動発動し、動画を1コマずつ高速生成してくれます。
+          </div>
+
+          <div class="setup-tip" style="margin-top: 8px;">
             💡 すでに入っているか分からない場合も、チャットに「私のPCで動く状態になってる？」と聞けばAIが判定してくれます。
           </div>
         </div>
@@ -278,11 +284,18 @@
 
 ### 【6. キャラ・声の変更 ＆ 素材調達ルール】
 - 登場キャラクターや声は、VOICEVOXのキャラクターIDや立ち絵PSDを差し替えるだけで簡単に別バージョンに変更可能。
-- ユーザーから「〇〇に合うフリー素材を探して」と依頼された場合、相手先サーバーに負荷をかける過剰なスクレイピングは絶対に避け、規約の明確な商用フリー素材サイト（みんちりえ、DOVA-SYNDROME等）から安全に調達・配置すること。</code></pre>
+- ユーザーから「〇〇に合うフリー素材を探して」と依頼された場合、相手先サーバーに負荷をかける過剰なスクレイピングは絶対に避け、規約の明確な商用フリー素材サイト（みんちりえ、DOVA-SYNDROME等）から安全に調達・配置すること。
+
+---
+
+### 【🚀 あなたの最初のタスク】
+1. まずこのPCでNode.jsや必要なパッケージ（npm install）が整っているか自動点検し、未完了なら準備してください。
+2. 以下のテーマで台本作成・音声合成・Remotionレンダリングまで全自動で進めてください：
+「（ここに思いついたネタを書く。例：徳島市のあるあるネタ、IT用語の解説、など）」</code></pre>
         </div>
 
         <div class="prompt-box-footer">
-          💡 <strong>つぶやき例：</strong> 「声を春日部つむぎに変えて！」「宇宙のフリー背景を探して設定して！」と頼むだけでAIが全てこなします。
+          💡 <strong>使い方：</strong> コピーしてチャット欄に貼り付け、最後の「（ここに思いついたネタを書く）」を自分のネタに変えて送信するだけで全自動で動きます！
         </div>
       </div>
     </div>

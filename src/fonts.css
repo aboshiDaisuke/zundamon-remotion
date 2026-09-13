@@ -1,0 +1,27 @@
+@font-face {
+  font-family: 'keifont';
+  src: local('Keifont'), local('けいふぉんと'), url('../public/fonts/keifont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Keifont';
+  src: local('Keifont'), local('けいふぉんと'), url('../public/fonts/keifont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'けいふぉんと';
+  src: local('Keifont'), local('けいふぉんと'), url('../public/fonts/keifont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: 'Keifont', 'けいふぉんと', 'keifont', sans-serif;
+}

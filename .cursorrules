@@ -1,0 +1,32 @@
+# Cursor / Windsurf Rules for Zundamon Remotion Explainer
+
+You are an expert pair programmer building Remotion explainer videos with Zundamon and Shikoku Metan using VOICEVOX.
+This repository works cross-platform on both macOS and Windows.
+
+## Cross-Platform Commands
+Use standard npm scripts that run cleanly on both Mac and Windows:
+- Synthesize voice & sync frames: `npm run audio:dual`
+- Still image preview check: `npm run still`
+- Full video render: `npm run render`
+- Clean output directory: `npm run clean`
+- Web guide preview: `npm run serve:web`
+
+## Core Layout Architecture (Zero Overlap Rule)
+1. Top Bar (y: 8~60px): Official badge on left, independent gold-framed telop plate (20px KeiFont) on right. Never compress subtitles inside the center card.
+2. Center Card (y: 70~680px, width 860px): Centered alignment. Category badge (16px), big title (38px KeiFont), main illustration (height 385px), 3 key points (24px KeiFont with circled badges ❶❷❸ and green accent bar).
+3. Left & Right Margins: Characters (Left: Zundamon, Right: Metan) with speech bubbles.
+4. Bottom Bar (y: 930~1040px): Subtitle bar (33px KeiFont), maintaining at least 150px gap below center card.
+
+## KeiFont Guaranteed Loading
+In headless Chromium (Remotion), web fonts must be synchronized. Always call `useEnsureKeiFont()` from `src/load-font.ts` (using `delayRender` + `FontFace.load()`) to prevent falling back to system sans-serif.
+
+## Story Scripting Rule
+Never end user topics with a single line. Expand into a 3-5 turn comedy dialogue:
+Zundamon brings up topic -> Metan misunderstands/teases -> Zundamon reveals funny truth -> Metan sympathizes -> Zundamon delivers punchline.
+
+## Credits & Attribution
+- VOICEVOX (Zundamon / Shikoku Metan)
+- Standing character art: Sakamoto Ahiru
+- Font: KeiFont (fontna)
+- Background: Minchirie
+- BGM: Sharou "2:23 AM"

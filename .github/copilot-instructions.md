@@ -37,6 +37,9 @@ When adding or expanding topics, always write a multi-turn comedic dialogue (3-5
 - BGM: しゃろう様「2:23 AM」
 
 ## Character Customization & Safe Material Sourcing
+- Drop materials (PSD, images, audio) into the project and prompt the AI with what you want to create!
 - Freely switch characters and voices by specifying other VOICEVOX speaker IDs or dropping new character `.psd` files.
 - When prompted to find free assets (backgrounds/BGM), guide users to reputable commercial-free sources (Minchirie, DOVA-SYNDROME, Irasutoya).
 - Strictly avoid excessive web scraping to protect upstream servers and comply with service terms.
+- **In-Editor AI Image Generation**: If running in an image-generation capable environment, directly generate explainer images or background art inside the workspace and place them automatically into Remotion.
+

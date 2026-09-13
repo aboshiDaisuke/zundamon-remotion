@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=M+PLUS+Rounded+1c:wght@600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=vibe_ready_v8">
+  <link rel="stylesheet" href="style.css?v=vibe_ai_image_v9">
 </head>
 <body>
 
@@ -18,15 +18,20 @@
     <div class="header-inner">
       <div class="logo">
         <img src="assets/public/characters/zunda_greeting.png" alt="ずんだもん" class="logo-img">
-        <span class="logo-text" style="white-space: nowrap;">ずんだもん動画 バイブコーディングキット</span>
+        <span class="logo-text">ずんだもん動画 バイブコーディングキット</span>
       </div>
-      <nav class="nav" style="white-space: nowrap;">
-        <a href="#how-it-works" style="white-space: nowrap;">バイブ制作とは</a>
-        <a href="#setup-guide" style="white-space: nowrap;">導入＆PSD</a>
-        <a href="#copy-prompts" style="white-space: nowrap;">プロンプト</a>
-        <a href="#download-rules" style="white-space: nowrap;">ルールDL</a>
-        <a href="#video-sample" style="white-space: nowrap;">動画見本</a>
-        <a href="#materials" style="white-space: nowrap;">素材一覧</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="メニューを開閉" aria-expanded="false" onclick="toggleMobileNav()">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+      <nav class="nav" id="mainNav">
+        <a href="#how-it-works" onclick="closeMobileNav()">バイブ制作とは</a>
+        <a href="#setup-guide" onclick="closeMobileNav()">導入＆PSD</a>
+        <a href="#copy-prompts" onclick="closeMobileNav()">プロンプト</a>
+        <a href="#download-rules" onclick="closeMobileNav()">ルールDL</a>
+        <a href="#video-sample" onclick="closeMobileNav()">動画見本</a>
+        <a href="#materials" onclick="closeMobileNav()">素材一覧</a>
       </nav>
     </div>
   </header>
@@ -36,12 +41,12 @@
     <div class="container-narrow text-center">
       <div class="hero-badge">⚡ VIBE CODING & OS-AGNOSTIC KIT</div>
       <h1 class="hero-title">
-        <span class="inline-block">動画編集は不要。</span>
-        <span class="inline-block">人間はつぶやくだけなのだ！</span>
+        <span class="inline-block">素材を入れて、</span>
+        <span class="inline-block">あとは作りたいことを指示するだけ！</span>
       </h1>
       <p class="hero-desc">
-        Remotion（コード）とVOICEVOXをAIに丸投げ！
-        ルールやプロンプトを<strong>コピペするかダウンロード</strong>してAIに渡し、あとは思いついたネタを会話感覚で投げるだけで、ハイクオリティな掛け合い動画が爆速で完成します。
+        立ち絵や背景などの素材をポンと入れたら、あとは作りたい内容をチャットで指示するだけ！<br>
+        画像生成AIを使っているなら<strong>エディタ内で直接イラスト生成</strong>もOK。RemotionとVOICEVOXをAIに丸投げして、ハイクオリティな掛け合い動画が爆速で完成します。
       </p>
 
       <!-- Action Buttons -->
@@ -67,19 +72,19 @@
       <div class="vibe-steps-grid">
         <div class="vibe-step-card">
           <div class="step-badge">STEP 1</div>
-          <div class="vibe-step-icon">📋</div>
-          <h3 class="step-card-title">プロンプトをAIにコピペする</h3>
+          <div class="vibe-step-icon">📁</div>
+          <h3 class="step-card-title">素材を入れてプロンプトを貼る</h3>
           <p class="step-card-text">
-            下のプロンプトをコピーして、Claude Code、Cursor、ChatGPT、VSCode Copilotなどに貼り付けるだけ。Node.jsの導入がまだでも「セットアップして！」と頼めばAIが自動で準備してくれます。
+            立ち絵PSDや使いたい画像素材をプロジェクトに放り込み、下のプロンプトをAIに貼るだけ！Node.jsの導入がまだでも「セットアップして！」と頼めばAIが自動で環境を作ってくれます。
           </p>
         </div>
 
         <div class="vibe-step-card">
           <div class="step-badge">STEP 2</div>
           <div class="vibe-step-icon">💬</div>
-          <h3 class="step-card-title">思いついたネタを雑につぶやく</h3>
+          <h3 class="step-card-title">作りたいことを指示するだけ！</h3>
           <p class="step-card-text">
-            「徳島のイオンの駐車場が神戸ナンバーだらけで、淡路島民が玉ねぎ畑のくせにオシャレぶっててコンプレックス持ってるやつ作って」と会話感覚で投げるだけ！
+            「徳島のイオンの駐車場が神戸ナンバーだらけなネタで作って」「中央のイラストもこの中で生成して」とチャットでつぶやくだけ！台本・音声・口パク・演出まで全自動で構築されます。
           </p>
         </div>
 
@@ -88,7 +93,7 @@
           <div class="vibe-step-icon">👀</div>
           <h3 class="step-card-title">プレビューを見て感覚でダメ出し</h3>
           <p class="step-card-text">
-            「文字被ってるよ」「フォントをけいフォントにして」「短いからもっと増やして」とつぶやくだけで、AIが座標計算から全編レンダリングまで全自動で仕上げます。
+            「文字被ってるよ」「フォントをけいフォントにして」「もっとボケとツッコミを増やして」とつぶやくだけで、AIが座標計算から全編レンダリングまで全自動で仕上げます。
           </p>
         </div>
       </div>
@@ -232,6 +237,31 @@
             </div>
           </div>
         </div>
+
+        <!-- Card 3: In-Editor AI Image Generation -->
+        <div class="vibe-power-card">
+          <div class="vibe-power-header">
+            <div class="vibe-power-icon">🎨</div>
+            <h3 class="vibe-power-title">画像生成できるAIなら、この中で直接生成OK！</h3>
+          </div>
+          <p class="vibe-power-desc">
+            AntigravityやChatGPT、画像生成対応ツールを使っているなら、外部サイトから素材を探す必要すらありません！
+            チャットで「〇〇のイラストを作って」と指示するだけで、AIがプロジェクト内で直接画像を生成し、中央解説カードや背景に自動セットしてくれます。
+          </p>
+          <div class="vibe-power-list">
+            <div class="vibe-power-item">
+              <span>⚡</span>
+              <div><strong>エディタ内で直接生成</strong>：素材サイトの検索やダウンロードの手間がゼロに</div>
+            </div>
+            <div class="vibe-power-item">
+              <span>🖼️</span>
+              <div><strong>Remotionへ自動配置</strong>：生成された画像をそのまま解説カード（高さ約385px）に即組み込み</div>
+            </div>
+            <div class="vibe-prompt-bubble">
+              💬 <strong>つぶやき例：</strong>「徳島ラーメンの美味しそうなイラストを生成して中央に置いて！」
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -282,15 +312,16 @@
 ### 【5. 成果物整理】
 - 書き出し完了後は、`out/` 内を最新動画1本にクリーンアップすること。
 
-### 【6. キャラ・声の変更 ＆ 素材調達ルール】
+### 【6. キャラ変更・素材調達・画像直接生成ルール】
 - 登場キャラクターや声は、VOICEVOXのキャラクターIDや立ち絵PSDを差し替えるだけで簡単に別バージョンに変更可能。
 - ユーザーから「〇〇に合うフリー素材を探して」と依頼された場合、相手先サーバーに負荷をかける過剰なスクレイピングは絶対に避け、規約の明確な商用フリー素材サイト（みんちりえ、DOVA-SYNDROME等）から安全に調達・配置すること。
+- 画像生成機能を持つAI（Antigravity、ChatGPT/DALL-E等）を使用している場合、外部サイトから探す代わりに、チャット指示で解説用イラストや背景画像をプロジェクト内に直接生成・配置して動画に組み込むことが可能です。
 
 ---
 
 ### 【🚀 あなたの最初のタスク】
 1. まずこのPCでNode.jsや必要なパッケージ（npm install）が整っているか自動点検し、未完了なら準備してください。
-2. 以下のテーマで台本作成・音声合成・Remotionレンダリングまで全自動で進めてください：
+2. 以下のテーマで台本作成・音声合成・Remotionレンダリングまで全自動で進めてください（画像生成できるAIなら解説用イラストも生成して配置してください）：
 「（ここに思いついたネタを書く。例：徳島市のあるあるネタ、IT用語の解説、など）」</code></pre>
         </div>
 
@@ -484,6 +515,6 @@
     </div>
   </footer>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=nav_toggle_v9"></script>
 </body>
 </html>

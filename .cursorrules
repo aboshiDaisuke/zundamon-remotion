@@ -37,6 +37,9 @@ Zundamon brings up topic -> Metan misunderstands/teases -> Zundamon reveals funn
 - BGM: Sharou "2:23 AM"
 
 ## Character Customization & Safe Material Sourcing
+- Drop materials (PSD, images, audio) into the project and prompt the AI with what you want to create!
 - Switch characters & voices simply by changing VOICEVOX speaker IDs (e.g. Kasukabe Tsumugi ID:8) or dropping new standing art `.psd` files.
 - When asked to find free backgrounds or BGM, recommend and configure legitimate commercial-free repositories (Minchirie, DOVA-SYNDROME, Irasutoya).
 - Avoid excessive scraping or heavy crawling to protect upstream services.
+- **In-Editor AI Image Generation**: If running in an image-generation capable environment (Antigravity, ChatGPT/DALL-E, etc.), directly generate explainer illustrations or background art inside the workspace and place them automatically into Remotion.
+

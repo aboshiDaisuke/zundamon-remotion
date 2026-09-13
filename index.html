@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=M+PLUS+Rounded+1c:wght@600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=vibe_power_v6">
+  <link rel="stylesheet" href="style.css?v=vibe_mobile_nav_v7">
 </head>
 <body>
 
@@ -70,7 +70,7 @@
           <div class="vibe-step-icon">📋</div>
           <h3 class="step-card-title">プロンプトをAIにコピペする</h3>
           <p class="step-card-text">
-            下のプロンプトをコピーして、Claude Code、Cursor、ChatGPT、VSCode Copilotなどに貼り付けるだけ。AIが一瞬で動画制作のプロに変身します。
+            下のプロンプトをコピーして、Claude Code、Cursor、ChatGPT、VSCode Copilotなどに貼り付けるだけ。Node.jsの導入がまだでも「セットアップして！」と頼めばAIが自動で準備してくれます。
           </p>
         </div>
 
@@ -126,21 +126,31 @@
           </div>
         </div>
 
-        <!-- Remotion Setup -->
+        <!-- Remotion & Node.js Setup -->
         <div class="setup-card">
           <div class="setup-header">
             <span class="setup-step-num">SETUP 2</span>
-            <span class="setup-time">所要時間: 2分</span>
+            <span class="setup-time">所要時間: 2分（AI丸投げOK！）</span>
           </div>
-          <h3 class="setup-title">🎬 Node.js ＆ Remotion の準備</h3>
+          <h3 class="setup-title">🎬 Node.js ＆ 動画環境の準備</h3>
           <p class="setup-text">
-            PCに Node.js（v18以上）が入っていれば準備完了！本リポジトリをダウンロード（またはGitクローン）して、ターミナルで依存パッケージをインストールするだけです。
+            動画作成エンジン（Remotion）を動かすのに必要な無料ソフトです。難しそうに見えますが、<strong>実はAIに丸投げできます！</strong>
           </p>
-          <div class="setup-code">
-            <code>npm install</code>
+
+          <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; padding: 12px 14px; margin: 8px 0; font-size: 13px;">
+            <div style="font-weight: 800; color: #166534; margin-bottom: 4px;">💬 いちばん簡単な方法（チャットに入れるだけ）：</div>
+            AIのチャット欄に一言つぶやくだけで、AIがあなたのパソコンに合わせて全自動で準備してくれます！
+            <div style="margin-top: 6px; background: #ffffff; border: 1px solid #bbf7d0; border-radius: 6px; padding: 6px 10px; color: #047857; font-weight: 700; font-size: 12.5px;">
+              「Node.jsの導入から環境セットアップまで全部やって！」
+            </div>
           </div>
+
+          <p class="setup-text" style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
+            自分で入れる場合：<a href="https://nodejs.org/" target="_blank" rel="noopener">Node.js公式サイト</a>で「LTS（推奨版）」をダウンロードし、インストーラーを「次へ」で進めるだけで完了します。
+          </p>
+
           <div class="setup-tip">
-            💡 あとは <code>npm run render</code> を叩くだけで動画が書き出せます！
+            💡 すでに入っているか分からない場合も、チャットに「私のPCで動く状態になってる？」と聞けばAIが判定してくれます。
           </div>
         </div>
       </div>

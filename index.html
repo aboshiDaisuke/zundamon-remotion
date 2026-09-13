@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=M+PLUS+Rounded+1c:wght@600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=vibe_share_v2">
+  <link rel="stylesheet" href="style.css?v=vibe_share_v3">
 </head>
 <body>
 
@@ -36,13 +36,12 @@
     <div class="container-narrow text-center">
       <div class="hero-badge">⚡ VIBE CODING & OS-AGNOSTIC KIT</div>
       <h1 class="hero-title">
-        動画編集は不要。<br>
-        人間はつぶやくだけなのだ！
+        <span class="inline-block">動画編集は不要。</span>
+        <span class="inline-block">人間はつぶやくだけなのだ！</span>
       </h1>
       <p class="hero-desc">
-        Remotion（コード）とVOICEVOXをAIに丸投げ！<br>
-        ルールやプロンプトを<strong>コピペするかダウンロード</strong>してAIに渡し、<br>
-        あとは思いついたネタを会話形式で投げるだけで、ハイクオリティな掛け合い動画が爆速で完成します。
+        Remotion（コード）とVOICEVOXをAIに丸投げ！
+        ルールやプロンプトを<strong>コピペするかダウンロード</strong>してAIに渡し、あとは思いついたネタを会話感覚で投げるだけで、ハイクオリティな掛け合い動画が爆速で完成します。
       </p>
 
       <!-- Action Buttons -->
@@ -117,8 +116,10 @@
           </div>
           <h3 class="setup-title">🎙️ VOICEVOX をインストールして起動</h3>
           <p class="setup-text">
-            <a href="https://voicevox.hiroshiba.jp/" target="_blank" rel="noopener">VOICEVOX公式サイト</a>から無料インストーラーをダウンロード（Mac / Windows両対応）。<br>
-            アプリを起動しておくだけで、ポート50021でAPIが待ち受け状態になり、AIが自動でずんだもんやめたんの音声を生成できるようになります。
+            <a href="https://voicevox.hiroshiba.jp/" target="_blank" rel="noopener">VOICEVOX公式サイト</a>から無料インストーラーをダウンロード（Mac / Windows両対応）。
+          </p>
+          <p class="setup-text">
+            アプリを起動しておくだけでポート50021でAPIが待機状態になり、AIがずんだもんやめたんの音声を全自動で生成できるようになります。
           </p>
           <div class="setup-tip">
             💡 初期設定は不要！アプリを開いておくだけでAIが勝手に連携します。
@@ -133,8 +134,7 @@
           </div>
           <h3 class="setup-title">🎬 Node.js ＆ Remotion の準備</h3>
           <p class="setup-text">
-            PCに Node.js（v18以上）が入っていれば準備完了！<br>
-            このリポジトリをダウンロード（またはGitクローン）して、ターミナルで依存パッケージをインストールするだけです。
+            PCに Node.js（v18以上）が入っていれば準備完了！本リポジトリをダウンロード（またはGitクローン）して、ターミナルで依存パッケージをインストールするだけです。
           </p>
           <div class="setup-code">
             <code>npm install</code>
@@ -153,8 +153,7 @@
           <div class="psd-text-wrap">
             <h3 class="psd-title">立ち絵は「PSDファイルをそのまま放り込むだけ」でOK！</h3>
             <p class="psd-desc">
-              パーツの切り抜きや画像編集ソフトでの加合作業は<strong>一切不要</strong>です。<br>
-              坂本アヒル様の「ずんだもん立ち絵素材.psd」や「四国めたん立ち絵素材.psd」を<strong>プロジェクト直下にそのまま置くだけ</strong>で、スクリプトが目・口・眉・身体のレイヤーを自動抽出します。
+              パーツの切り抜きや画像編集ソフトでの加合作業は<strong>一切不要</strong>です。坂本アヒル様の「ずんだもん立ち絵素材.psd」や「四国めたん立ち絵素材.psd」を<strong>プロジェクト直下にそのまま置くだけ</strong>で、スクリプトが目・口・眉・身体のレイヤーを自動抽出します。
             </p>
             <div class="psd-features-list">
               <span class="psd-feat-item">✔ <strong>自動口パク（リップシンク）</strong>: 音声の再生に合わせて口が自然に開閉</span>
@@ -348,8 +347,8 @@
         <div class="material-row">
           <div class="mat-badge">無料ソフト</div>
           <div class="mat-info">
-            <strong>VOICEVOX</strong>（ヒロシバ様）<br>
-            <span class="mat-sub">ずんだもん＆四国めたんの高品質音声をローカルAPIで自動生成。Mac / Windows両対応。</span>
+            <div class="mat-title"><strong>VOICEVOX</strong>（ヒロシバ様）</div>
+            <div class="mat-sub">ずんだもん＆四国めたんの高品質音声をローカルAPIで自動生成。Mac / Windows両対応。</div>
           </div>
           <a href="https://voicevox.hiroshiba.jp/" target="_blank" rel="noopener" class="btn btn-outline">公式サイト ↗</a>
         </div>
@@ -357,8 +356,8 @@
         <div class="material-row">
           <div class="mat-badge">立ち絵素材</div>
           <div class="mat-info">
-            <strong>ずんだもん・四国めたん公式立ち絵</strong>（坂本アヒル様）<br>
-            <span class="mat-sub">ポーズ、表情、目パチ・口パク連動パーツが揃った大人気フリー素材。</span>
+            <div class="mat-title"><strong>ずんだもん・四国めたん公式立ち絵</strong>（坂本アヒル様）</div>
+            <div class="mat-sub">ポーズ、表情、目パチ・口パク連動パーツが揃った大人気フリー素材。</div>
           </div>
           <span class="mat-credit">立ち絵: 坂本アヒル様</span>
         </div>
@@ -366,8 +365,8 @@
         <div class="material-row">
           <div class="mat-badge">フォント</div>
           <div class="mat-info">
-            <strong>けいフォント</strong>（フォントな / MODI工場様）<br>
-            <span class="mat-sub">大見出し・テロップ・字幕に最適なポップで可愛い商用利用可能フォント。</span>
+            <div class="mat-title"><strong>けいフォント</strong>（フォントな / MODI工場様）</div>
+            <div class="mat-sub">大見出し・テロップ・字幕に最適なポップで可愛い商用利用可能フォント。</div>
           </div>
           <a href="http://fontna.com/" target="_blank" rel="noopener" class="btn btn-outline">配布元を見る ↗</a>
         </div>
@@ -375,8 +374,8 @@
         <div class="material-row">
           <div class="mat-badge">背景素材</div>
           <div class="mat-info">
-            <strong>みんちりえ</strong><br>
-            <span class="mat-sub">街並み、駅前、リビング等、解説動画に最適なフリー背景イラスト素材。</span>
+            <div class="mat-title"><strong>みんちりえ</strong></div>
+            <div class="mat-sub">街並み、駅前、リビング等、解説動画に最適なフリー背景イラスト素材。</div>
           </div>
           <a href="https://minchirie.info/" target="_blank" rel="noopener" class="btn btn-outline">公式サイト ↗</a>
         </div>
@@ -384,8 +383,8 @@
         <div class="material-row">
           <div class="mat-badge">BGM</div>
           <div class="mat-info">
-            <strong>しゃろう様「2:23 AM」</strong><br>
-            <span class="mat-sub">テンポの良い解説用アンビエント音源（DOVA-SYNDROME）。</span>
+            <div class="mat-title"><strong>しゃろう様「2:23 AM」</strong></div>
+            <div class="mat-sub">テンポの良い解説用アンビエント音源（DOVA-SYNDROME）。</div>
           </div>
           <span class="mat-credit">BGM: しゃろう</span>
         </div>
@@ -397,7 +396,9 @@
   <footer class="footer">
     <div class="container-narrow text-center">
       <p class="footer-text">
-        &copy; 2026 Zundamon Vibe Coding Studio. Made with Remotion & VOICEVOX.<br>
+        &copy; 2026 Zundamon Vibe Coding Studio. Made with Remotion & VOICEVOX.
+      </p>
+      <p class="footer-text" style="margin-top: 6px;">
         VOICEVOX:ずんだもん / VOICEVOX:四国めたん / 立ち絵: 坂本アヒル様 / フォント: けいフォント / 背景: みんちりえ / BGM: しゃろう
       </p>
     </div>

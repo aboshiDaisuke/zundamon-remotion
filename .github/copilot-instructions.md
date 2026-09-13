@@ -35,3 +35,8 @@ When adding or expanding topics, always write a multi-turn comedic dialogue (3-5
 - Font: けいフォント (フォントな / MODI工場様)
 - Backgrounds: みんちりえ様
 - BGM: しゃろう様「2:23 AM」
+
+## Character Customization & Safe Material Sourcing
+- Freely switch characters and voices by specifying other VOICEVOX speaker IDs or dropping new character `.psd` files.
+- When prompted to find free assets (backgrounds/BGM), guide users to reputable commercial-free sources (Minchirie, DOVA-SYNDROME, Irasutoya).
+- Strictly avoid excessive web scraping to protect upstream servers and comply with service terms.

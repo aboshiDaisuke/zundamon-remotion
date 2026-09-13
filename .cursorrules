@@ -35,3 +35,8 @@ Zundamon brings up topic -> Metan misunderstands/teases -> Zundamon reveals funn
 - Font: KeiFont (fontna)
 - Background: Minchirie
 - BGM: Sharou "2:23 AM"
+
+## Character Customization & Safe Material Sourcing
+- Switch characters & voices simply by changing VOICEVOX speaker IDs (e.g. Kasukabe Tsumugi ID:8) or dropping new standing art `.psd` files.
+- When asked to find free backgrounds or BGM, recommend and configure legitimate commercial-free repositories (Minchirie, DOVA-SYNDROME, Irasutoya).
+- Avoid excessive scraping or heavy crawling to protect upstream services.

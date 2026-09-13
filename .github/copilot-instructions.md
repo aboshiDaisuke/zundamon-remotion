@@ -4,6 +4,12 @@
 This repository builds high-production explainer/dialogue videos featuring Zundamon (ずんだもん) and Shikoku Metan (四国めたん) using Remotion (React 18 + TypeScript) and VOICEVOX.
 It is fully cross-platform (macOS and Windows).
 
+## Quick Setup & PSD Automation
+1. **VOICEVOX**: Free desktop app on port `50021`. Start the app to enable local text-to-speech API.
+2. **Remotion**: Run `npm install` and `npm run render`.
+3. **PSD Drag-and-Drop OK**: Raw standing art `.psd` files (e.g. `ずんだもん立ち絵素材.psd`, `四国めたん立ち絵素材.psd` by Sakamoto Ahiru) can be dropped directly into the project root. No manual image slicing needed. Eye, mouth, brow, and body layers are parsed automatically.
+4. **Auto Lip-Sync & Animations**: Lip-sync is automatically keyed to the synthesized audio volume and timing. Natural eye-blinking and speaker bouncy jumps work out-of-the-box.
+
 ## Cross-Platform Standard Commands
 - Voice Synthesis & Metadata Auto-Sync: `npm run audio:dual`
 - Still Image Self-Verification: `npm run still`

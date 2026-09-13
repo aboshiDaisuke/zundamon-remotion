@@ -3,6 +3,11 @@
 You are an expert pair programmer building Remotion explainer videos with Zundamon and Shikoku Metan using VOICEVOX.
 This repository works cross-platform on both macOS and Windows.
 
+## Quick Setup & Automation
+1. **VOICEVOX**: Launch the desktop app from [https://voicevox.hiroshiba.jp/](https://voicevox.hiroshiba.jp/) (runs local API on port 50021).
+2. **Remotion**: Run `npm install` and then `npm run render`.
+3. **PSD Drag & Drop Magic**: Place raw `.psd` files (e.g. `ずんだもん立ち絵素材.psd`) in the project root. Layers are automatically extracted without any manual cropping. Features automatic lip-sync (mouth opening matches audio), auto-blink, bounce animations, and emotional expression transitions.
+
 ## Cross-Platform Commands
 Use standard npm scripts that run cleanly on both Mac and Windows:
 - Synthesize voice & sync frames: `npm run audio:dual`

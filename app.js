@@ -125,8 +125,39 @@ function setupSmoothScroll() {
       const target = document.querySelector(targetId);
       if (target) {
         e.preventDefault();
+        window.closeMobileNav();
         target.scrollIntoView({ behavior: "smooth" });
       }
     });
   });
 }
+
+// 4. Collapsible Mobile Navigation
+window.toggleMobileNav = function() {
+  const nav = document.getElementById("mainNav");
+  const toggleBtn = document.getElementById("menuToggle");
+  if (!nav || !toggleBtn) return;
+  const isOpen = nav.classList.toggle("open");
+  toggleBtn.classList.toggle("active", isOpen);
+  toggleBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+};
+
+window.closeMobileNav = function() {
+  const nav = document.getElementById("mainNav");
+  const toggleBtn = document.getElementById("menuToggle");
+  if (nav && nav.classList.contains("open")) {
+    nav.classList.remove("open");
+    if (toggleBtn) {
+      toggleBtn.classList.remove("active");
+      toggleBtn.setAttribute("aria-expanded", "false");
+    }
+  }
+};
+
+// Close mobile nav when clicking outside header
+document.addEventListener("click", (e) => {
+  const header = document.querySelector(".header");
+  if (header && !header.contains(e.target)) {
+    window.closeMobileNav();
+  }
+});

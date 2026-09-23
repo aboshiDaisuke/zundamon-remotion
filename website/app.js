@@ -12,7 +12,8 @@ const CHAPTERS = [
   { time: 77.0, title: "#7: 徳島ラーメン" },
   { time: 85.0, title: "#8: 銘菓「小男鹿」" },
   { time: 91.6, title: "#9: ごめんなさいの味" },
-  { time: 101.0, title: "#10: エンディング" }
+  { time: 101.0, title: "#10: フィナーレ" },
+  { time: 117.3, title: "エンディング" }
 ];
 
 document.addEventListener("DOMContentLoaded", () => {

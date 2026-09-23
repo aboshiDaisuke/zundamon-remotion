@@ -17,11 +17,22 @@ It is fully cross-platform (macOS and Windows).
 - Clean Intermediate Outputs: `npm run clean`
 - Local Preview: `npm start`
 
-## Critical Layout Constraints (Strict Separation)
-- Top Area (y: 8~60px): Header bar with independent gold-framed top-right telop (`#ffd54f`, 20px).
-- Center Area (y: 70~680px, width: 860px): Balanced centered layout with category badge (16px), headline (38px), illustration (height: 385px), and 3 bullet points (24px with ❶❷❸ badges).
-- Left/Right Margins (x: 40px / x: 1450px): Zundamon on left, Metan on right with lip-sync and speech badges.
-- Bottom Area (y: 930~1040px): Subtitle bar with speaker tags (32~34px), at least 150px safety gap below center card.
+## Core Layout Architecture (Safe Zones, Zero Overlap)
+The single source of truth for coordinates is `src/layout.ts`; never hard-code positions in components.
+1. Safe zones (1920x1080): all text stays inside title safe (x 96-1824 / y 54-1026); characters stay inside action safe (x 67-1853).
+2. Header (y 54-118): program title telop on the left (two lines, 15px / 30px KeiFont, deep green left bar); independent gold-framed (`#ffd54f`) deep green corner telop on the right (30px KeiFont). Never compress subtitles inside the center card.
+3. Center card (y 150-760, width 860px): one white card with category badge (16px), title (38px KeiFont), illustration (860x385, full bleed), 3 key points (24px KeiFont with ❶❷❸ badges and a deep green bar). Do not replay the entrance animation while the same `topic_num` continues.
+4. Characters (Zundamon x 70-520 / Metan x 1400-1850, feet end at y 900): one small hop when a line starts, no constant bobbing, no name plates above heads (the subtitle speaker tag names the speaker).
+5. Subtitle bar (y 910-1020, width 1380px): 33px KeiFont with a speaker tag, at least 150px below the center card.
+6. Background: blurred Minchirie art with a light veil only; no bokeh, waves or dot patterns.
+
+## Card Illustrations
+- Save as `public/images/cards/topicNN_<subject>.jpg` at 1720x770 (2.23:1).
+- One consistent style for every topic: bright TV-anime background art. No text, logos or numbers, and no characters (they already stand on both sides).
+- When replacing, update `image` in both `scripts/generate_dual_audio.py` (`SCENES`) and `src/dual_scene_data.json`. See the "カードイラストの作り方" section of `.agents/skills/remotion-video-workflow/SKILL.md`.
+
+## Ending
+- Always end with `src/components/DualOutro.tsx` (~6.7s: characters + confetti -> "ご視聴ありがとうございました！" -> credits -> iris-out -> "おしまい"). `src/Root.tsx` sets the duration to `totalFrames + OUTRO_FRAMES`.
 
 ## KeiFont Synchronization Rule
 Always ensure `useEnsureKeiFont()` from `src/load-font.ts` is called so Chromium delays rendering until `keifont` is 100% loaded. Never allow Hiragino / Meiryo fallback.

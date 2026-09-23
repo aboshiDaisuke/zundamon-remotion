@@ -2,6 +2,7 @@ import React from "react";
 import "./fonts.css";
 import { Composition } from "remotion";
 import { DualExplainer } from "./DualExplainer";
+import { OUTRO_FRAMES } from "./components/DualOutro";
 import { ZundamonExplainer } from "./ZundamonExplainer";
 import dualSceneData from "./dual_scene_data.json";
 import sceneData from "./scene_data.json";
@@ -13,7 +14,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="DualExplainer"
         component={DualExplainer}
-        durationInFrames={dualSceneData.totalFrames}
+        durationInFrames={dualSceneData.totalFrames + OUTRO_FRAMES}
         fps={dualSceneData.fps}
         width={1920}
         height={1080}

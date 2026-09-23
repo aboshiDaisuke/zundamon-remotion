@@ -13,14 +13,27 @@ import { HeaderBar } from "./components/HeaderBar";
 import { DualCharacters } from "./components/DualCharacters";
 import { DualSubtitleBar } from "./components/DualSubtitleBar";
 import { DualTopicCard } from "./components/DualTopicCard";
+import { DualOutro, OUTRO_FRAMES } from "./components/DualOutro";
 import { useEnsureKeiFont } from "./load-font";
 
+type DualScene = (typeof dualSceneData.scenes)[0];
+
 interface DualSceneProps {
-  scene: (typeof dualSceneData.scenes)[0];
-  index: number;
+  scene: DualScene;
+  /** Frames elapsed in the same topic before this scene started */
+  topicOffset: number;
 }
 
-const SingleDualScene: React.FC<DualSceneProps> = ({ scene, index }) => {
+// Consecutive scenes sharing a topic_num (e.g. 3_1〜3_5) keep the card still
+const topicOffsets = dualSceneData.scenes.map((scene, i, scenes) => {
+  let offset = 0;
+  for (let j = i - 1; j >= 0 && scenes[j].topic_num === scene.topic_num; j--) {
+    offset += scenes[j].durationInFrames;
+  }
+  return offset;
+});
+
+const SingleDualScene: React.FC<DualSceneProps> = ({ scene, topicOffset }) => {
   const localFrame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -30,8 +43,10 @@ const SingleDualScene: React.FC<DualSceneProps> = ({ scene, index }) => {
   let activeSpeaker: "zundamon" | "metan" = scene.character_speaker as "zundamon" | "metan";
   let activeSpeakerName = scene.speaker_name;
   let activeSubtitle = scene.text;
+  let speakStart = 0;
 
   if (scene.id === "dual_scene10") {
+    speakStart = localFrame < 145 ? 0 : 145;
     if (localFrame < 145) {
       activeSpeaker = "metan";
       activeSpeakerName = "四国めたん";
@@ -43,45 +58,41 @@ const SingleDualScene: React.FC<DualSceneProps> = ({ scene, index }) => {
     }
   }
 
+  const topicFrame = localFrame + topicOffset;
+  const speakFrame = localFrame - speakStart;
+
   return (
     <>
-      {/* Minchirie Background with Bokeh & Water Animation for this scene */}
       <Background bgImage={scene.bg_image} />
 
-      {/* Voice Audio */}
       <Audio src={staticFile(scene.audioFile)} volume={1.0} />
 
-      {/* Header bar with Prominent Top-Right Telop */}
-      <HeaderBar isSpeaking={isSpeaking} subTitle={scene.sub} />
+      <HeaderBar subTitle={scene.sub} />
 
-      {/* Center Topic Card */}
       <DualTopicCard
         topic={scene.topic}
-        sub={scene.sub}
-        points={scene.points}
         category={scene.category}
-        imageIndex={index}
         image={scene.image}
-        emotion={scene.emotion}
-        sceneFrame={localFrame}
-        sceneIndex={index}
-        topicNum={(scene as any).topic_num}
+        points={scene.points}
+        topicNum={scene.topic_num}
+        topicFrame={topicFrame}
       />
 
-      {/* Characters (Zundamon on Left with lip sync, Shikoku Metan on Right with lip sync) */}
       <DualCharacters
         currentSpeaker={activeSpeaker}
         isSpeaking={isSpeaking}
         sceneFrame={localFrame}
-        sceneIndex={index}
+        topicIndex={scene.topic_num - 1}
+        topicFrame={topicFrame}
+        speakFrame={speakFrame}
       />
 
-      {/* Subtitle Bar with Speaker Tag */}
       <DualSubtitleBar
+        key={speakStart}
         text={activeSubtitle}
         speakerName={activeSpeakerName}
         characterSpeaker={activeSpeaker}
-        sceneFrame={localFrame}
+        speakFrame={speakFrame}
       />
     </>
   );
@@ -121,7 +132,6 @@ export const DualExplainer: React.FC = () => {
         loop
       />
 
-      {/* Background */}
       <Background />
 
       {/* Scene Sequence */}
@@ -131,9 +141,12 @@ export const DualExplainer: React.FC = () => {
             key={scene.id}
             durationInFrames={scene.durationInFrames}
           >
-            <SingleDualScene scene={scene} index={idx} />
+            <SingleDualScene scene={scene} topicOffset={topicOffsets[idx]} />
           </Series.Sequence>
         ))}
+        <Series.Sequence durationInFrames={OUTRO_FRAMES}>
+          <DualOutro />
+        </Series.Sequence>
       </Series>
     </div>
   );

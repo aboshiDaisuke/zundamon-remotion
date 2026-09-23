@@ -37,7 +37,7 @@ SCENES = [
             "本州と鳴門海峡で直結する「四国の東の玄関口」",
             "誇らしげに紹介するめたんと、冷めたずんだもん"
         ],
-        "image": "images/card_scene1_bizan.jpg",
+        "image": "images/cards/topic01_panorama.jpg",
         "bg_image": "backgrounds/minchirie_living.jpg",
         "emotion": "🌸",
         "intonationScale": 1.15,
@@ -59,7 +59,7 @@ SCENES = [
             "地元民は「電車」と言わず誇りを持って「汽車」と呼ぶ",
             "架線がないので空が異様に広いという謎のメリット"
         ],
-        "image": "images/card_scene2_diesel.jpg",
+        "image": "images/cards/topic02_diesel.jpg",
         "bg_image": "backgrounds/minchirie_station.jpg",
         "emotion": "💧",
         "intonationScale": 1.15,
@@ -81,7 +81,7 @@ SCENES = [
             "駐車場で大量に見かける「神戸ナンバー」の正体は淡路島民",
             "玉ねぎ畑の住人が名乗る「神戸」への激しいコンプレックス"
         ],
-        "image": "images/card_scene3_kobe.jpg",
+        "image": "images/cards/topic03_mall.jpg",
         "bg_image": "backgrounds/minchirie_city.jpg",
         "emotion": "🚗",
         "intonationScale": 1.20,
@@ -103,7 +103,7 @@ SCENES = [
             "駐車場で大量に見かける「神戸ナンバー」の正体は淡路島民",
             "玉ねぎ畑の住人が名乗る「神戸」への激しいコンプレックス"
         ],
-        "image": "images/card_scene3_kobe.jpg",
+        "image": "images/cards/topic03_mall.jpg",
         "bg_image": "backgrounds/minchirie_city.jpg",
         "emotion": "🌸",
         "intonationScale": 1.15,
@@ -125,7 +125,7 @@ SCENES = [
             "駐車場で大量に見かける「神戸ナンバー」の正体は淡路島民",
             "玉ねぎ畑の住人が名乗る「神戸」への激しいコンプレックス"
         ],
-        "image": "images/card_scene3_kobe.jpg",
+        "image": "images/cards/topic03_mall.jpg",
         "bg_image": "backgrounds/minchirie_city.jpg",
         "emotion": "💧",
         "intonationScale": 1.20,
@@ -147,7 +147,7 @@ SCENES = [
             "駐車場で大量に見かける「神戸ナンバー」の正体は淡路島民",
             "玉ねぎ畑の住人が名乗る「神戸」への激しいコンプレックス"
         ],
-        "image": "images/card_scene3_kobe.jpg",
+        "image": "images/cards/topic03_mall.jpg",
         "bg_image": "backgrounds/minchirie_city.jpg",
         "emotion": "😅",
         "intonationScale": 1.18,
@@ -169,7 +169,7 @@ SCENES = [
             "駐車場で大量に見かける「神戸ナンバー」の正体は淡路島民",
             "玉ねぎ畑の住人が名乗る「神戸」への激しいコンプレックス"
         ],
-        "image": "images/card_scene3_kobe.jpg",
+        "image": "images/cards/topic03_mall.jpg",
         "bg_image": "backgrounds/minchirie_city.jpg",
         "emotion": "🚗",
         "intonationScale": 1.22,
@@ -191,7 +191,7 @@ SCENES = [
             "山形・福島・島根に続く「デパートのない県」へ突入",
             "お中元やお歳暮をどこで買うか県民が真剣に悩む事態に"
         ],
-        "image": "images/pure_illust/illust_scene4_closed.jpg",
+        "image": "images/cards/topic04_closed_store.jpg",
         "bg_image": "backgrounds/minchirie_city.jpg",
         "emotion": "😅",
         "intonationScale": 1.15,
@@ -213,7 +213,7 @@ SCENES = [
             "祭り終了の翌朝から嘘のように静寂を取り戻す市街地",
             "「同じ阿呆なら踊らにゃ損々」のエネルギー落差が凄まじい"
         ],
-        "image": "images/anime/art_scene5_awaodori.jpg",
+        "image": "images/cards/topic05_awaodori.jpg",
         "bg_image": "backgrounds/minchirie_arcade.jpg",
         "emotion": "🏮",
         "intonationScale": 1.15,
@@ -235,7 +235,7 @@ SCENES = [
             "四国なのにローカルニュースより関西の話題に詳しい",
             "買い物も高松や松山より神戸・難波に行きがち"
         ],
-        "image": "images/pure_illust/illust_scene6_kansai.jpg",
+        "image": "images/cards/topic06_kansai_tv.jpg",
         "bg_image": "backgrounds/minchirie_room.jpg",
         "emotion": "📺",
         "intonationScale": 1.15,
@@ -257,7 +257,7 @@ SCENES = [
             "もはやラーメン単体ではなく「白ご飯のおかず」として君臨",
             "生卵を落とさないと喉が渇いてたまらない濃厚さ"
         ],
-        "image": "images/anime/art_scene7_ramen.jpg",
+        "image": "images/cards/topic07_ramen.jpg",
         "bg_image": "backgrounds/minchirie_cafe.jpg",
         "emotion": "🍜",
         "intonationScale": 1.18,
@@ -279,7 +279,7 @@ SCENES = [
             "棹（さお）一本が高級すぎて普段のおやつには手が出ない",
             "貰ったときだけ一家総出で大喜びして食べる銘菓"
         ],
-        "image": "images/anime/art_scene8_saoshika.jpg",
+        "image": "images/cards/topic08_saoshika.jpg",
         "bg_image": "backgrounds/minchirie_room.jpg",
         "emotion": "🤫",
         "intonationScale": 1.15,
@@ -301,7 +301,7 @@ SCENES = [
             "「小男鹿を持ってきたなら許すしかない…」となる魔法の味",
             "徳島県人を宥める最強のコミュニケーションツール"
         ],
-        "image": "images/pure_illust/illust_scene9_apology.jpg",
+        "image": "images/cards/topic09_apology.jpg",
         "bg_image": "backgrounds/minchirie_room.jpg",
         "emotion": "🙇",
         "intonationScale": 1.18,
@@ -324,7 +324,7 @@ SCENES = [
             "汽車に揺られ、濃厚ラーメンをすすり、小男鹿を味わう旅",
             "人情味あふれる徳島市で皆様をお待ちしています！"
         ],
-        "image": "images/pure_illust/illust_scene10_welcome.jpg",
+        "image": "images/cards/topic10_welcome.jpg",
         "bg_image": "backgrounds/minchirie_living.jpg",
         "emotion": "✨",
         "intonationScale": 1.15,

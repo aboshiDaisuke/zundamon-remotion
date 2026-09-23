@@ -39,11 +39,14 @@
    - 静止画確認: `npm run still`
    - 本編レンダリング: `npm run render`
    - 不要ファイル整理: `npm run clean`
-2. 画面レイアウト（被りゼロ）:
-   - 最上部: 独立した金枠コーナーテロップ（20px けいフォント）
-   - 中央部: 大見出し（38px けいフォント）＋画像（高さ385px）＋解説文（24px けいフォント、丸型ナンバリング❶❷❸）
-   - 左右: ずんだもん（左）と四国めたん（右）
-   - 最下部: 字幕バー（33px けいフォント、中央カードから150px以上余白）
+2. 画面レイアウト（セーフゾーン・被りゼロ。座標の正は `src/layout.ts`）:
+   - セーフゾーン: 文字はタイトルセーフ（x 96〜1824 / y 54〜1026）、キャラはアクションセーフ（x 67〜1853）の内側
+   - ヘッダー（y 54〜118）: 左に番組名テロップ（2段 15px / 30px）、右に独立した金枠コーナーテロップ（30px けいフォント）
+   - 中央カード（y 150〜760, width 860px）: 大見出し（38px けいフォント）＋イラスト（860×385px）＋解説文（24px けいフォント、丸型ナンバリング❶❷❸）
+   - 左右: ずんだもん（x 70〜520）と四国めたん（x 1400〜1850）、足元は y 900まで
+   - 字幕バー（y 910〜1020）: 33px けいフォント、中央カードから150px以上余白
+   - カードイラスト: 1720×770、アニメ背景美術風で統一、文字・ロゴ・キャラは描かない
+   - エンディング: 最後に紙吹雪 → お礼 → クレジット → アイリスアウト → 「おしまい」を付ける
 3. けいフォント完全適用:
    - ヘッドレスChromiumでの遅延を防ぐため、`useEnsureKeiFont()` でロード待機を必須とする。
 4. 台本設計:
@@ -74,6 +77,7 @@
 | **GitHub Copilot / Codex (VSCode)** | [.github/copilot-instructions.md](file:///Users/daisuke/Desktop/ずんだもんテスト/.github/copilot-instructions.md) | Copilot Chatおよびコード補完時に自動参照 |
 | **Antigravity / Gemini** | [AGENTS.md](file:///Users/daisuke/Desktop/ずんだもんテスト/AGENTS.md) / [GEMINI.md](file:///Users/daisuke/Desktop/ずんだもんテスト/GEMINI.md) | ワークスペース全域で常時適用 |
 | **Antigravity スキル** | [.agents/skills/remotion-video-workflow](file:///Users/daisuke/Desktop/ずんだもんテスト/.agents/skills/remotion-video-workflow/SKILL.md) | オンデマンドで呼び出せるランブック |
+| **Claude Code スキル** | [.claude/skills/remotion-video-workflow](file:///Users/daisuke/Desktop/ずんだもんテスト/.claude/skills/remotion-video-workflow/SKILL.md) | 上のランブックを Claude Code から呼び出す入口 |
 
 ---
 

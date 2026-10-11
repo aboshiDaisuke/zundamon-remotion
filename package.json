@@ -10,7 +10,7 @@
     "audio": "node scripts/run_python.js scripts/generate_audio.py",
     "audio:dual": "node scripts/run_python.js scripts/generate_dual_audio.py",
     "clean": "node scripts/clean_out.js",
-    "serve:web": "python3 -m http.server 8088 --directory website || python -m http.server 8088 --directory website",
+    "serve:web": "node scripts/serve_web.js",
     "check": "node scripts/run_python.js scripts/generate_dual_audio.py --check && tsc --noEmit",
     "doctor": "node scripts/doctor.js",
     "sync": "node scripts/run_python.js scripts/generate_dual_audio.py --cached",

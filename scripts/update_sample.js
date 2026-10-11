@@ -21,7 +21,7 @@ chapters.push({ time: data.totalFrames / data.fps, title: 'エンディング' }
 const format = time => `${Math.floor(time / 60)}:${String(Math.floor(time % 60)).padStart(2, '0')}`;
 const htmlPath = path.join(root, 'website/index.html');
 let html = fs.readFileSync(htmlPath, 'utf8');
-html = html.replace(/assets\/zundamon_metan\.mp4\?v=[^"\s]+/, `assets/zundamon_metan.mp4?v=${hash}`)
+html = html.replace(/assets\/zundamon_metan\.mp4\?v=[^"\s]+/g, `assets/zundamon_metan.mp4?v=${hash}`)
   .replace(/poster="[^"]+"/, `poster="assets/video-poster.jpg?v=${hash}"`)
   .replace(/(<div class="chapter-buttons">)[\s\S]*?(\n          <\/div>)/,
     `$1\n${chapters.map((c, i) => `            <button class="ch-btn${i === 0 ? ' active' : ''}" data-time="${c.time}">${format(c.time)} ${escape(c.title)}</button>`).join('\n')}$2`);

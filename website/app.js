@@ -1,7 +1,3 @@
-// ==========================================================================
-// Vibe Coding Kit - Interactive Controller & Copy to Clipboard
-// ==========================================================================
-
 const CHAPTERS = [
   {
     "time": 0,
@@ -49,149 +45,105 @@ const CHAPTERS = [
   }
 ];
 
-document.addEventListener("DOMContentLoaded", () => {
-  setupChapterControls();
-  setupSmoothScroll();
-});
-
-// 1. One-Click Copy Prompt to Clipboard
-window.copyPromptText = function() {
-  const codeElem = document.getElementById("masterPromptCode");
-  const copyBtn = document.getElementById("btnCopyPrompt");
-  const copyIcon = document.getElementById("copyIcon");
-  const copyText = document.getElementById("copyText");
-
-  if (!codeElem) return;
-
-  const textToCopy = codeElem.innerText || codeElem.textContent;
-
-  navigator.clipboard.writeText(textToCopy).then(() => {
-    // Visual feedback
-    if (copyIcon) copyIcon.textContent = "✔";
-    if (copyText) copyText.textContent = "コピー完了！";
-    if (copyBtn) copyBtn.style.background = "#047857";
-
-    setTimeout(() => {
-      if (copyIcon) copyIcon.textContent = "📋";
-      if (copyText) copyText.textContent = "プロンプトをコピー";
-      if (copyBtn) copyBtn.style.background = "";
-    }, 2500);
-  }).catch(err => {
-    console.error("Copy failed: ", err);
-    // Fallback for older browsers
-    const textarea = document.createElement("textarea");
-    textarea.value = textToCopy;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textarea);
-    alert("プロンプトをクリップボードにコピーしました！");
-  });
-};
-
-// 2. Setup Video Chapter Jump and Real-time Active Sync
-function setupChapterControls() {
-  const video = document.getElementById("sampleVideo");
-  const chapterButtons = document.querySelectorAll(".ch-btn");
-  const currentChapterText = document.getElementById("currentChapterText");
-
-  if (!video || !chapterButtons.length) return;
-
-  // Click Handler for Chapter Buttons
-  chapterButtons.forEach((btn, index) => {
-    btn.addEventListener("click", () => {
-      const targetTime = parseFloat(btn.getAttribute("data-time") || "0");
-      video.currentTime = targetTime;
-      
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(error => console.log("Play error:", error));
-      }
-
-      updateActiveChapterUI(index);
-    });
-  });
-
-  // Timeupdate Listener
-  video.addEventListener("timeupdate", () => {
-    const curTime = video.currentTime;
-    let activeIdx = 0;
-
-    for (let i = CHAPTERS.length - 1; i >= 0; i--) {
-      if (curTime >= CHAPTERS[i].time - 0.4) {
-        activeIdx = i;
-        break;
-      }
-    }
-
-    updateActiveChapterUI(activeIdx);
-  });
-
-  function formatTime(seconds) {
-    const min = Math.floor(seconds / 60);
-    const sec = Math.floor(seconds % 60);
-    return `${min}:${sec < 10 ? "0" : ""}${sec}`;
-  }
-
-  function updateActiveChapterUI(index) {
-    chapterButtons.forEach((b, idx) => {
-      if (idx === index) {
-        b.classList.add("active");
-      } else {
-        b.classList.remove("active");
-      }
-    });
-
-    if (currentChapterText && CHAPTERS[index]) {
-      const ch = CHAPTERS[index];
-      currentChapterText.textContent = `再生位置: ${formatTime(video.currentTime)} (${ch.title})`;
-    }
-  }
+const $ = selector => document.querySelector(selector);
+const toast = $('#copyStatus');
+let toastTimer;
+function notify(message) {
+  clearTimeout(toastTimer);
+  toast.textContent = message;
+  toast.classList.add('visible');
+  toastTimer = setTimeout(() => toast.classList.remove('visible'), 4500);
 }
 
-// 3. Smooth scroll
-function setupSmoothScroll() {
-  const links = document.querySelectorAll('a[href^="#"]');
-  links.forEach(link => {
-    link.addEventListener("click", (e) => {
-      const targetId = link.getAttribute("href");
-      if (!targetId || targetId === "#") return;
-      const target = document.querySelector(targetId);
-      if (target) {
-        e.preventDefault();
-        window.closeMobileNav();
-        target.scrollIntoView({ behavior: "smooth" });
+function updatePrompt() {
+  const topic = $('#topicInput').value.trim() || '好きなテーマ';
+  const duration = $('#durationInput').value;
+  $('#masterPromptCode').value = `「${topic}」をテーマに、約${duration}分の解説動画をつくってください。
+出演はずんだもんと四国めたん。初めて知る人にもわかる言葉で、明るくテンポのよい掛け合いにしてください。
+
+このキットのREADME.mdとAGENTS.mdを読み、content/episode.jsonを編集してください。1話題につき3〜5往復を目安に、長さに合わせて話題数を調整してください。見出しは短く、要点は3行以内にまとめてください。
+
+必要な音声をVOICEVOXで生成し、全シーンの静止画と音声・字幕を確認してください。素材や読み方に問題があれば修正し、エンディングを含む全編をout/zundamon_metan.mp4に書き出してください。`;
+}
+$('#topicInput').addEventListener('input', updatePrompt);
+$('#durationInput').addEventListener('change', updatePrompt);
+updatePrompt();
+
+for (const button of document.querySelectorAll('[data-copy]')) {
+  button.addEventListener('click', async () => {
+    const source = document.getElementById(button.dataset.copy);
+    const text = source.value ?? source.textContent.trim();
+    let copied = false;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        copied = true;
       }
-    });
+    } catch { /* Fall back to the browser's copy command. */ }
+    if (!copied) {
+      const temporary = document.createElement('textarea');
+      temporary.value = text;
+      temporary.setAttribute('aria-label', 'コピー用の文章');
+      temporary.style.cssText = 'position:fixed;left:-9999px;top:0';
+      document.body.append(temporary);
+      temporary.select();
+      try { copied = document.execCommand('copy'); } catch { copied = false; }
+      temporary.remove();
+      button.focus();
+    }
+    const destination = button.dataset.copy === 'setupCommands' ? 'ターミナル' : 'AIのチャット';
+    notify(copied ? `コピーしました。${destination}に貼り付けてください。` : 'コピーできませんでした。文章を選択して手動でコピーしてください。');
   });
 }
 
-// 4. Collapsible Mobile Navigation
-window.toggleMobileNav = function() {
-  const nav = document.getElementById("mainNav");
-  const toggleBtn = document.getElementById("menuToggle");
-  if (!nav || !toggleBtn) return;
-  const isOpen = nav.classList.toggle("open");
-  toggleBtn.classList.toggle("active", isOpen);
-  toggleBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
-};
+const checks = [...document.querySelectorAll('.ready-check')];
+checks.forEach(check => check.addEventListener('change', () => {
+  const count = checks.filter(item => item.checked).length;
+  $('#readyStatus').textContent = `準備のチェック：${count} / 3${count === 3 ? '　次は、AIにテーマを伝えましょう。' : ''}`;
+}));
 
-window.closeMobileNav = function() {
-  const nav = document.getElementById("mainNav");
-  const toggleBtn = document.getElementById("menuToggle");
-  if (nav && nav.classList.contains("open")) {
-    nav.classList.remove("open");
-    if (toggleBtn) {
-      toggleBtn.classList.remove("active");
-      toggleBtn.setAttribute("aria-expanded", "false");
-    }
-  }
-};
-
-// Close mobile nav when clicking outside header
-document.addEventListener("click", (e) => {
-  const header = document.querySelector(".header");
-  if (header && !header.contains(e.target)) {
-    window.closeMobileNav();
-  }
+const menu = $('#mainNav');
+const menuButton = $('#menuToggle');
+function closeMenu() {
+  menu.classList.remove('open');
+  menuButton.setAttribute('aria-expanded', 'false');
+  menuButton.setAttribute('aria-label', 'メニューを開く');
+}
+menuButton.addEventListener('click', () => {
+  const open = menu.classList.toggle('open');
+  menuButton.setAttribute('aria-expanded', String(open));
+  menuButton.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
 });
+menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && menu.classList.contains('open')) { closeMenu(); menuButton.focus(); }
+});
+document.addEventListener('click', event => { if (!event.target.closest('.header')) closeMenu(); });
+window.matchMedia('(min-width: 761px)').addEventListener('change', closeMenu);
+
+const video = $('#sampleVideo');
+const buttons = [...document.querySelectorAll('.ch-btn')];
+function updateChapter() {
+  let current = 0;
+  CHAPTERS.forEach((chapter, index) => { if (video.currentTime >= chapter.time) current = index; });
+  buttons.forEach((button, index) => {
+    button.classList.toggle('active', index === current);
+    if (index === current) button.setAttribute('aria-current', 'true');
+    else button.removeAttribute('aria-current');
+  });
+  const minutes = Math.floor(video.currentTime / 60);
+  const seconds = String(Math.floor(video.currentTime % 60)).padStart(2, '0');
+  $('#currentChapterText').textContent = `再生位置: ${minutes}:${seconds}（${CHAPTERS[current].title}）`;
+}
+buttons.forEach(button => button.addEventListener('click', () => {
+  const start = () => {
+    video.currentTime = Number(button.dataset.time);
+    video.play().catch(() => notify('動画の再生ボタンを押すと、この話題から再生できます。'));
+    updateChapter();
+  };
+  if (video.readyState >= 1) start();
+  else { video.addEventListener('loadedmetadata', start, { once: true }); video.load(); }
+}));
+video.addEventListener('timeupdate', updateChapter);
+video.addEventListener('error', () => notify('動画を読み込めませんでした。接続を確認してページを再読み込みしてください。'));
+updateChapter();

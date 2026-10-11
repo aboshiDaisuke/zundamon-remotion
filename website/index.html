@@ -1,445 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>バイブコーディングでつくる！ずんだもん動画制作キット | プロンプトコピペ＆設定DL</title>
-  <meta name="description" content="動画編集は不要、人間はつぶやくだけ！Remotion×VOICEVOXを使ったずんだもん解説動画のバイブコーディングキット。Mac/Windows問わず、Claude、Cursor、VSCode、ChatGPTで使えるプロンプトのコピペや設定ファイルのダウンロードが可能です。">
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=M+PLUS+Rounded+1c:wght@600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=vibe_ai_image_v9">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8f2">
+  <title>ずんだもんとめたんの動画制作キット｜はじめての動画づくり</title>
+  <meta name="description" content="ずんだもんと四国めたんの掛け合い動画を、AIと一緒に。完成見本から必要な準備、依頼文、書き出しまで、はじめての方にも順番に案内します。">
+  <link rel="stylesheet" href="style.css?v=beginner-20261011">
+  <script src="app.js?v=beginner-20261011" defer></script>
 </head>
 <body>
-
-  <!-- Clean Minimal Header -->
-  <header class="header">
-    <div class="header-inner">
-      <div class="logo">
-        <img src="assets/public/characters/zunda_greeting.png" alt="ずんだもん" class="logo-img">
-        <span class="logo-text">ずんだもん動画 バイブコーディングキット</span>
-      </div>
-      <button class="menu-toggle" id="menuToggle" aria-label="メニューを開閉" aria-expanded="false" onclick="toggleMobileNav()">
-        <span class="hamburger-bar"></span>
-        <span class="hamburger-bar"></span>
-        <span class="hamburger-bar"></span>
-      </button>
-      <nav class="nav" id="mainNav">
-        <a href="#how-it-works" onclick="closeMobileNav()">バイブ制作とは</a>
-        <a href="#setup-guide" onclick="closeMobileNav()">導入＆PSD</a>
-        <a href="#copy-prompts" onclick="closeMobileNav()">プロンプト</a>
-        <a href="#download-rules" onclick="closeMobileNav()">ルールDL</a>
-        <a href="#video-sample" onclick="closeMobileNav()">動画見本</a>
-        <a href="#materials" onclick="closeMobileNav()">素材一覧</a>
-      </nav>
+<a class="skip-link" href="#main">本文へ移動</a>
+<header class="header">
+  <div class="header-inner wrap">
+    <a class="brand" href="#top" aria-label="ずんだもん動画制作キット トップへ">
+      <span class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M6 6h20v15H15l-7 5v-5H6z" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><path d="m13 10 7 4-7 4z" fill="currentColor"/></svg></span>
+      <span>ずんだもん動画制作キット<small>ふたりと、はじめる動画づくり。</small></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="mainNav">メニュー <span aria-hidden="true">☰</span></button>
+    <nav id="mainNav" class="nav" aria-label="メインメニュー">
+      <a href="#how-it-works">できること</a><a href="#setup-guide">はじめ方</a><a href="#faq">よくある質問</a>
+      <a class="nav-cta" href="#setup-guide">はじめてみる <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <section class="hero wrap" id="top" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="little-dot"></span> はじめての解説動画に</p>
+      <h1 id="hero-title">つくりたい話を、<br><span>ふたりの動画に。</span></h1>
+      <p class="hero-description">ずんだもんと四国めたんが、あなたのテーマを掛け合いで紹介。台本づくりから声・字幕・書き出しまで、AIと一緒に進められる制作キットです。</p>
+      <div class="hero-actions"><a class="button primary" href="#setup-guide">はじめ方を見てみる <span aria-hidden="true">→</span></a><a class="text-link" href="#video-sample">まずは完成見本を見る <span aria-hidden="true">↘</span></a></div>
+      <p class="hero-note">Mac / Windows のパソコンで制作できます。<br>このサイトは、キットの使い方を案内するページです。</p>
     </div>
-  </header>
-
-  <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="container-narrow text-center">
-      <div class="hero-badge">⚡ VIBE CODING & OS-AGNOSTIC KIT</div>
-      <h1 class="hero-title">
-        <span class="inline-block">素材を入れて、</span>
-        <span class="inline-block">あとは作りたいことを指示するだけ！</span>
-      </h1>
-      <p class="hero-desc">
-        立ち絵や背景などの素材をポンと入れたら、あとは作りたい内容をチャットで指示するだけ！<br>
-        画像生成AIを使っているなら<strong>エディタ内で直接イラスト生成</strong>もOK。RemotionとVOICEVOXをAIに丸投げして、ハイクオリティな掛け合い動画が爆速で完成します。
-      </p>
-
-      <!-- Action Buttons -->
-      <div class="hero-actions">
-        <a href="#setup-guide" class="btn btn-primary">🛠️ 導入 ＆ PSD自動化</a>
-        <a href="#copy-prompts" class="btn btn-primary" style="background:#0284c7;">📋 プロンプトをコピペ</a>
-        <a href="assets/downloads/zundamon-ai-rules.zip" class="btn btn-secondary" download>📥 設定一式をDL（ZIP）</a>
-        <a href="#video-sample" class="btn btn-ghost">🎥 完成動画を見る ▶</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- How Vibe Coding Works (Introduction to Easy Video Creation) -->
-  <section class="section bg-alt" id="how-it-works">
-    <div class="container-narrow">
-      <div class="section-header text-center">
-        <h2 class="section-title">導入：バイブコーディングで超簡単に作る3ステップ</h2>
-        <p class="section-subtitle">
-          難しい動画編集ソフトの操作やコードの勉強は一切不要。人間は感覚（Vibe）で指示するだけ！
-        </p>
-      </div>
-
-      <div class="vibe-steps-grid">
-        <div class="vibe-step-card">
-          <div class="step-badge">STEP 1</div>
-          <div class="vibe-step-icon">📁</div>
-          <h3 class="step-card-title">素材を入れてプロンプトを貼る</h3>
-          <p class="step-card-text">
-            立ち絵PSDや使いたい画像素材をプロジェクトに放り込み、下のプロンプトをAIに貼るだけ！Node.jsの導入がまだでも「セットアップして！」と頼めばAIが自動で環境を作ってくれます。
-          </p>
-        </div>
-
-        <div class="vibe-step-card">
-          <div class="step-badge">STEP 2</div>
-          <div class="vibe-step-icon">💬</div>
-          <h3 class="step-card-title">作りたいことを指示するだけ！</h3>
-          <p class="step-card-text">
-            「徳島のイオンの駐車場が神戸ナンバーだらけなネタで作って」「中央のイラストもこの中で生成して」とチャットでつぶやくだけ！台本・音声・口パク・演出まで全自動で構築されます。
-          </p>
-        </div>
-
-        <div class="vibe-step-card">
-          <div class="step-badge">STEP 3</div>
-          <div class="vibe-step-icon">👀</div>
-          <h3 class="step-card-title">プレビューを見て感覚でダメ出し</h3>
-          <p class="step-card-text">
-            「文字被ってるよ」「フォントをけいフォントにして」「もっとボケとツッコミを増やして」とつぶやくだけで、AIが座標計算から全編レンダリングまで全自動で仕上げます。
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Setup & PSD Drag-and-Drop Feature Showcase -->
-  <section class="section" id="setup-guide">
-    <div class="container-narrow">
-      <div class="section-header text-center">
-        <span class="pill-tag">EASY SETUP & AUTOMATION</span>
-        <h2 class="section-title">ゼロからの導入 ＆ 立ち絵の自動化</h2>
-        <p class="section-subtitle">
-          準備はたったの2つだけ。同梱の立ち絵ですぐに始められ、対応PSDから口パク・まばたき差分も生成できます。
-        </p>
-      </div>
-
-      <!-- 2-Column Setup Cards -->
-      <div class="setup-grid">
-        <!-- VOICEVOX Setup -->
-        <div class="setup-card">
-          <div class="setup-header">
-            <span class="setup-step-num">SETUP 1</span>
-            <span class="setup-time">所要時間: 1分</span>
-          </div>
-          <h3 class="setup-title">🎙️ VOICEVOX をインストールして起動</h3>
-          <p class="setup-text">
-            <a href="https://voicevox.hiroshiba.jp/" target="_blank" rel="noopener">VOICEVOX公式サイト</a>から無料インストーラーをダウンロード（Mac / Windows両対応）。
-          </p>
-          <p class="setup-text">
-            アプリを起動しておくだけでポート50021でAPIが待機状態になり、AIがずんだもんやめたんの音声を全自動で生成できるようになります。
-          </p>
-          <div class="setup-tip">
-            💡 初期設定は不要！アプリを開いておくだけでAIが勝手に連携します。
-          </div>
-        </div>
-
-        <!-- Remotion & Node.js Setup -->
-        <div class="setup-card">
-          <div class="setup-header">
-            <span class="setup-step-num">SETUP 2</span>
-            <span class="setup-time">所要時間: 2分（AI丸投げOK！）</span>
-          </div>
-          <h3 class="setup-title">🎬 Node.js ＆ 動画環境の準備</h3>
-          <p class="setup-text">
-            動画作成エンジン（Remotion）を動かすのに必要な無料ソフトです。難しそうに見えますが、<strong>実はAIに丸投げできます！</strong>
-          </p>
-
-          <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; padding: 12px 14px; margin: 8px 0; font-size: 13px;">
-            <div style="font-weight: 800; color: #166534; margin-bottom: 4px;">💬 いちばん簡単な方法（チャットに入れるだけ）：</div>
-            AIのチャット欄に一言つぶやくだけで、AIがあなたのパソコンに合わせて全自動で準備してくれます！
-            <div style="margin-top: 6px; background: #ffffff; border: 1px solid #bbf7d0; border-radius: 6px; padding: 6px 10px; color: #047857; font-weight: 700; font-size: 12.5px;">
-              「Node.jsの導入から環境セットアップまで全部やって！」
-            </div>
-          </div>
-
-          <p class="setup-text" style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
-            自分で入れる場合：<a href="https://nodejs.org/" target="_blank" rel="noopener">Node.js公式サイト</a>で「LTS（推奨版）」をダウンロードし、インストーラーを「次へ」で進めるだけで完了します。
-          </p>
-
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; margin-top: 8px; font-size: 12px; color: var(--text-body); line-height: 1.6;">
-            <strong>❓ Remotionはどこで発動するの？設定は？</strong><br>
-            Premiereのような編集アプリを起動する必要はありません！フルHD・30fps・デザインなどの<strong>設定は全て最初から完了済み</strong>。<br>
-            あなたがチャットで指示すると、AIが裏で <code>npm run render</code> コマンドを叩いて自動発動し、動画を1コマずつ高速生成してくれます。
-          </div>
-
-          <div class="setup-tip" style="margin-top: 8px;">
-            💡 すでに入っているか分からない場合も、チャットに「私のPCで動く状態になってる？」と聞けばAIが判定してくれます。
-          </div>
-        </div>
-      </div>
-
-      <!-- PSD Drag-and-Drop Magic Card -->
-      <div class="psd-magic-card">
-        <div class="psd-badge">画期的な便利機能！</div>
-        <div class="psd-content">
-          <div class="psd-icon-wrap">🎨</div>
-          <div class="psd-text-wrap">
-            <h3 class="psd-title">立ち絵は対応PSDからまとめて自動抽出</h3>
-            <p class="psd-desc">
-              パーツの切り抜きや画像編集ソフトでの加合作業は<strong>一切不要</strong>です。坂本アヒル様の「ずんだもん立ち絵素材.psd」や「四国めたん立ち絵素材.psd」を<strong>プロジェクト直下に置き、npm run characters を実行</strong>すると、スクリプトが目・口・眉・身体のレイヤーを自動抽出します。
-            </p>
-            <div class="psd-features-list">
-              <span class="psd-feat-item">✔ <strong>自動口パク（リップシンク）</strong>: 音声の再生に合わせて口が自然に開閉</span>
-              <span class="psd-feat-item">✔ <strong>自動目パチ（まばたき）</strong>: 二人のタイミングをずらして自然にまばたき</span>
-              <span class="psd-feat-item">✔ <strong>自動バウンド演出</strong>: セリフを喋り始める瞬間にピョコッと可愛くジャンプ</span>
-              <span class="psd-feat-item">✔ <strong>感情表情連動</strong>: ドヤ顔、困り顔、笑顔、驚き顔を台本に合わせて切り替え</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 2-Column Power Showcase: Character Customization & AI Material Finder -->
-      <div class="vibe-power-grid">
-        <!-- Card 1: Custom Characters & Voices -->
-        <div class="vibe-power-card">
-          <div class="vibe-power-header">
-            <div class="vibe-power-icon">🎭</div>
-            <h3 class="vibe-power-title">立ち絵や声を変えれば、無限のバージョンが作れる！</h3>
-          </div>
-          <p class="vibe-power-desc">
-            ずんだもん＆四国めたんだけでなく、VOICEVOXに収録されている多彩なキャラクター（春日部つむぎ、冥鳴ひまり、玄野武宏など）に声を変えたり、別の立ち絵を使うこともできます。別キャラクターには音声設定とPSDレイヤーの対応が必要です。
-            テーマやジャンル（IT解説、歴史、商品レビュー、雑談コント）に合わせて、あなただけのオリジナル動画チャンネルを何本でも量産できます。
-          </p>
-          <div class="vibe-power-list">
-            <div class="vibe-power-item">
-              <span>🎙️</span>
-              <div><strong>キャラクターIDを変えるだけ</strong>で声質を即座に変更可能</div>
-            </div>
-            <div class="vibe-power-item">
-              <span>🎨</span>
-              <div><strong>対応PSDを配置して抽出コマンドを実行</strong>すると口パク・目パチが連動</div>
-            </div>
-            <div class="vibe-prompt-bubble">
-              💬 <strong>つぶやき例：</strong>「声を春日部つむぎにして、IT用語の解説動画にして！」
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 2: AI Material Finder & Safe Usage -->
-        <div class="vibe-power-card">
-          <div class="vibe-power-header">
-            <div class="vibe-power-icon">🔍</div>
-            <h3 class="vibe-power-title">素材探しも不要！チャットに「フリー素材探して」で解決</h3>
-          </div>
-          <p class="vibe-power-desc">
-            動画に使う背景イラストやBGM、効果音を自分で探しまわる必要はありません！
-            チャットでAIに「この台本に合う無料の背景を探して」「テンポの良いBGMを提案して」と頼むだけで、規約に則ったフリー素材をリサーチしてプロジェクトに配置してくれます。
-          </p>
-          <div class="vibe-power-list">
-            <div class="vibe-power-item">
-              <span>🌐</span>
-              <div><strong>商用フリー素材サイト</strong>（みんちりえ、DOVA-SYNDROME等）から安全に調達</div>
-            </div>
-            <div class="vibe-power-item">
-              <span>⚠️</span>
-              <div><strong>スクレイピングのしすぎに注意</strong>し、相手先サーバーに負荷をかけない正規の方法で取得</div>
-            </div>
-            <div class="vibe-prompt-bubble">
-              💬 <strong>つぶやき例：</strong>「近未来の街並みのフリー背景を探して差し替えて！」
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 3: In-Editor AI Image Generation -->
-        <div class="vibe-power-card">
-          <div class="vibe-power-header">
-            <div class="vibe-power-icon">🎨</div>
-            <h3 class="vibe-power-title">画像生成できるAIなら、この中で直接生成OK！</h3>
-          </div>
-          <p class="vibe-power-desc">
-            AntigravityやChatGPT、画像生成対応ツールを使っているなら、外部サイトから素材を探す必要すらありません！
-            チャットで「〇〇のイラストを作って」と指示するだけで、AIがプロジェクト内で直接画像を生成し、中央解説カードや背景に自動セットしてくれます。
-          </p>
-          <div class="vibe-power-list">
-            <div class="vibe-power-item">
-              <span>⚡</span>
-              <div><strong>エディタ内で直接生成</strong>：素材サイトの検索やダウンロードの手間がゼロに</div>
-            </div>
-            <div class="vibe-power-item">
-              <span>🖼️</span>
-              <div><strong>Remotionへ自動配置</strong>：生成された画像をそのまま解説カード（高さ約385px）に即組み込み</div>
-            </div>
-            <div class="vibe-prompt-bubble">
-              💬 <strong>つぶやき例：</strong>「徳島ラーメンの美味しそうなイラストを生成して中央に置いて！」
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Section 1: Copy-Paste Prompts for Any AI -->
-  <section class="section" id="copy-prompts">
-    <div class="container-narrow">
-      <div class="section-header text-center">
-        <span class="pill-tag">ANY AI & ANY OS</span>
-        <h2 class="section-title">ワンクリックでコピペ！動画制作 指示プロンプト</h2>
-        <p class="section-subtitle">
-          MacでもWindowsでもOK！お使いのAIチャット（Claude / Cursor / ChatGPT / Copilot）に貼り付けてください。
-        </p>
-      </div>
-
-      <div class="prompt-box-card">
-        <div class="prompt-box-header">
-          <span class="prompt-title">📄 全AI共通：ずんだもん動画制作マスター指示プロンプト</span>
-          <button class="copy-btn" id="btnCopyPrompt" onclick="copyPromptText()">
-            <span id="copyIcon">📋</span> <span id="copyText">プロンプトをコピー</span>
-          </button>
-        </div>
-
-        <div class="prompt-code-wrap">
-          <pre><code id="masterPromptCode">あなたは「Remotion」と「VOICEVOX」を用いたキャラクター解説動画の専門エンジニアです。
-以下のルールに従い、ずんだもんと四国めたんの掛け合い動画を制作・修正してください。
-（このプロジェクトは macOS および Windows の両方で動作します）
-
-### 【0. 編集する場所】
-- 台本・番組名・画像・表情は `content/episode.json` にまとめる。
-- `src/dual_scene_data.json` は自動生成。直接編集しない。
-- 1セリフは1話者。speakerは zundamon / metan、expressionsで二人の表情を指定。
-- 見出しは短く、要点は3行以内。長文字幕は最大2行ずつ表示する。
-
-### 【1. 実行コマンド（OS共通）】
-- 音声合成＆フレーム同期: `npm run audio:dual`
-- 画面だけの変更を同期: `npm run sync`
-- 全セリフとエンディングの静止画一覧: `npm run preview`（out/review/index.html）
-- フル動画レンダリング: `npm run render`
-- 紹介ページの動画も差し替える: `npm run sample`
-- 中間ファイル掃除: `npm run clean`
-
-### 【2. 画面レイアウト（セーフゾーン・被りゼロの絶対分離原則）】
-- 座標の正は `src/layout.ts`。文字要素はタイトルセーフ（x 96〜1824 / y 54〜1026）、キャラはアクションセーフ（x 67〜1853）の内側に置くこと。
-- ヘッダー（y: 54〜118px）: 左に番組名テロップ（2段 15px / 30px）、右に独立した金枠コーナーテロップ（30px けいフォント）。中央カードにサブタイトルを押し込まないこと。
-- 中央カード（y: 150〜760px, width: 860px）: 白カード1枚にカテゴリバッジ（16px）、大見出し（38px けいフォント）、イラスト（860×385px）、解説文（24px けいフォント＋丸型ナンバリング❶❷❸）。
-- キャラ: ずんだもん（左 x: 70〜520px）、四国めたん（右 x: 1400〜1850px）、足元は y: 900px まで。喋り出しに1回ピョコッと跳ねる。
-- 字幕（y: 910〜1020px）: 33px けいフォント＋話者タグ、中央カード下端から150px以上余白。
-- カードイラスト: 1720×770px、明るいアニメ背景美術風で統一し、文字・ロゴ・キャラクターは描かない。
-- エンディング: 最後に紙吹雪 → 「ご視聴ありがとうございました！」 → クレジット → アイリスアウト → 「おしまい」を付けること。
-
-### 【3. けいフォント完全適用】
-- ヘッドレスChromiumでのフォント遅延を防ぐため、`useEnsureKeiFont()`（delayRender + FontFace.load）でロード待機を必須とすること。
-
-### 【4. 台本設計】
-- ユーザーから提供されたネタは1台詞で終わらせず、ずんだもんとめたんの「3〜5往復の掛け合いコント」として深掘りすること。
-
-### 【5. 成果物整理】
-- 完全版は `out/zundamon_metan.mp4`。中間プレビューは `npm run clean` で整理し、関係のないファイルを削除しない。
-
-### 【6. キャラ変更・素材調達・画像直接生成ルール】
-- 対応する坂本アヒル様のPSDからは `npm run characters` で口パク・まばたき差分を生成する。別キャラクターのPSDにはレイヤー対応が必要。
-- ユーザーから「〇〇に合うフリー素材を探して」と依頼された場合、相手先サーバーに負荷をかける過剰なスクレイピングは絶対に避け、規約の明確な商用フリー素材サイト（みんちりえ、DOVA-SYNDROME等）から安全に調達・配置すること。
-- 画像生成機能を持つAI（Antigravity、ChatGPT/DALL-E等）を使用している場合、外部サイトから探す代わりに、チャット指示で解説用イラストや背景画像をプロジェクト内に直接生成・配置して動画に組み込むことが可能です。
-
----
-
-### 【🚀 あなたの最初のタスク】
-1. まずこのPCでNode.jsや必要なパッケージ（npm install）が整っているか自動点検し、未完了なら準備してください。
-2. 以下のテーマで台本作成・音声合成・Remotionレンダリングまで全自動で進めてください（画像生成できるAIなら解説用イラストも生成して配置してください）：
-「（ここに思いついたネタを書く。例：徳島市のあるあるネタ、IT用語の解説、など）」</code></pre>
-        </div>
-
-        <div class="prompt-box-footer">
-          💡 <strong>使い方：</strong> コピーしてチャット欄に貼り付け、最後の「（ここに思いついたネタを書く）」を自分のネタに変えて送信するだけで全自動で動きます！
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 2: Download Rule Files for VSCode, Cursor, Claude, Antigravity -->
-  <section class="section bg-alt" id="download-rules">
-    <div class="container-narrow">
-      <div class="section-header text-center">
-        <span class="pill-tag">SHAREABLE ASSETS</span>
-        <h2 class="section-title">ルール・設定ファイルをダウンロードして共有</h2>
-        <p class="section-subtitle">
-          MacでもWindowsでも、解凍してプロジェクトフォルダに置くだけで各AIツールが自動認識します。
-        </p>
-      </div>
-
-      <!-- Main Download Banner -->
-      <div class="download-banner">
-        <div class="banner-text">
-          <h3 class="banner-title">📦 AI動画制作ルール一式（全ファイルまとめZIP）</h3>
-          <p class="banner-desc">
-            <code>CLAUDE.md</code>、<code>.cursorrules</code>、<code>AGENTS.md</code>、<code>copilot-instructions.md</code> など、全AIツールの自動読み込み設定ファイルが全て入っています。
-          </p>
-        </div>
-        <a href="assets/downloads/zundamon-ai-rules.zip" class="btn btn-download-lg" download>
-          📥 一括ダウンロード（ZIP）
-        </a>
-      </div>
-
-      <!-- Individual Files Grid -->
-      <div class="files-grid">
-        <div class="file-card">
-          <div class="file-icon">🤖</div>
-          <div class="file-info">
-            <h4 class="file-name">CLAUDE.md</h4>
-            <p class="file-for">Claude Code / Anthropic 用</p>
-            <p class="file-desc">Claude Codeがプロジェクトを開いた瞬間に最優先で読み込むルール定義。</p>
-          </div>
-        </div>
-
-        <div class="file-card">
-          <div class="file-icon">⚡</div>
-          <div class="file-info">
-            <h4 class="file-name">.cursorrules</h4>
-            <p class="file-for">Cursor / Windsurf 用</p>
-            <p class="file-desc">Cursorエディタでのチャットやコード生成時に常時インジェクトされる指示書。</p>
-          </div>
-        </div>
-
-        <div class="file-card">
-          <div class="file-icon">💻</div>
-          <div class="file-info">
-            <h4 class="file-name">copilot-instructions.md</h4>
-            <p class="file-for">VSCode / GitHub Copilot 用</p>
-            <p class="file-desc"><code>.github/</code> 配下に置くことでCopilot Chatがリポジトリの掟として自動遵守。</p>
-          </div>
-        </div>
-
-        <div class="file-card">
-          <div class="file-icon">🌌</div>
-          <div class="file-info">
-            <h4 class="file-name">AGENTS.md / GEMINI.md</h4>
-            <p class="file-for">Antigravity / Gemini CLI 用</p>
-            <p class="file-desc">Google Antigravity環境で自動ロードされる恒久的ワークスペースルール。</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 3: Completed Video Player Sample -->
-  <section class="section" id="video-sample">
-    <div class="container-narrow text-center">
-      <div class="section-header">
-        <span class="pill-tag">WORKING SAMPLE</span>
-        <h2 class="section-title">バイブコーディングで完成した実物動画</h2>
-        <p class="section-subtitle">
-          「人間はつぶやくだけ」で実際に生成されたフル動画（2分4秒 / フルHD 1080p）です。
-        </p>
-      </div>
-
-      <!-- Video Player Card -->
-      <div class="video-card">
-        <div class="video-card-top">
-          <span class="video-title">🎥 徳島市PR動画：ずんだもん＆四国めたん（完全版）</span>
-          <span class="video-meta">Remotion × VOICEVOX</span>
-        </div>
-
-        <div class="video-wrapper">
-          <video id="sampleVideo" controls poster="assets/video-poster.jpg?v=6b2112637932" preload="metadata">
-            <source src="assets/zundamon_metan.mp4?v=6b2112637932" type="video/mp4">
-            お使いのブラウザは動画タグに対応していません。
-          </video>
-        </div>
-
-        <!-- Chapter Navigation -->
-        <div class="chapter-nav">
-          <div class="chapter-nav-header">
-            <span class="chapter-nav-title">⚡ チャプターをクリックして好きなシーンへジャンプ：</span>
-            <span class="chapter-nav-status" id="currentChapterText">再生位置: 0:00</span>
-          </div>
-          <div class="chapter-buttons">
+    <div class="sample" id="video-sample">
+      <div class="sample-heading"><span class="sample-dot" aria-hidden="true"></span><h2>このキットでつくった動画</h2><span class="sample-time">約2分4秒</span></div>
+      <div class="video-wrapper"><video id="sampleVideo" controls playsinline preload="metadata" poster="assets/video-poster.jpg?v=6b2112637932" aria-label="完成見本：ずんだもんと四国めたんの徳島紹介"><source src="assets/zundamon_metan.mp4?v=6b2112637932" type="video/mp4">動画を再生できない場合は、<a href="assets/zundamon_metan.mp4?v=6b2112637932">MP4を開いてください</a>。</video></div>
+      <div class="sample-caption"><span><strong>徳島の魅力を、ふたりで紹介。</strong><small>音声・字幕・口パク・エンディング付き</small></span><span class="quality">1080p</span></div>
+      <details class="chapter-details"><summary>見たい話題から再生する</summary><div class="chapter-nav"><p id="currentChapterText" class="small">再生位置: 0:00</p><div class="chapter-buttons">
             <button class="ch-btn active" data-time="0">0:00 四国の東の玄関口・徳島市</button>
             <button class="ch-btn" data-time="6.766666666666667">0:06 「電車」ではなく「汽車」</button>
             <button class="ch-btn" data-time="15.8">0:15 神戸ナンバーの意外な正体</button>
@@ -451,82 +49,83 @@
             <button class="ch-btn" data-time="95.96666666666667">1:35 誠意を込めた「小男鹿」</button>
             <button class="ch-btn" data-time="105.8">1:45 語りたくなる、徳島の魅力</button>
             <button class="ch-btn" data-time="117.76666666666667">1:57 エンディング</button>
-          </div>
+          </div></div></details>
+    </div>
+  </section>
+
+  <section class="benefits wrap" id="how-it-works" aria-label="このキットでできること">
+    <div><span class="feature-number">01</span><h2>台本を、会話に。</h2><p>伝えたいことを、ふたりの質問と解説に。むずかしい話も親しみやすく。</p></div>
+    <div><span class="feature-number pink">02</span><h2>声も、動きも。</h2><p>台本から音声をつくり、口パクとまばたきを連動。話すたびに表情も変わります。</p></div>
+    <div><span class="feature-number">03</span><h2>見やすさは、準備済み。</h2><p>画像・見出し・字幕の位置を整えたテンプレート。まずは内容づくりに集中できます。</p></div>
+  </section>
+
+  <section class="guide-section" id="setup-guide">
+    <div class="wrap">
+      <div class="section-heading"><p class="eyebrow">はじめての方はこちら</p><h2>最初の1本まで、<br class="mobile-only">この3ステップ。</h2><p>まずは同梱の見本を動かしてから、自分のテーマに変えてみましょう。</p></div>
+      <div class="guide-layout">
+        <aside class="guide-index" aria-label="制作の順番"><a href="#prepare"><span>1</span>つくる準備をする</a><a href="#copy-prompts"><span>2</span>AIにテーマを伝える</a><a href="#finish"><span>3</span>確認して動画にする</a><p>最初からすべてを<br>覚えなくて大丈夫です。</p><div class="character-pair" aria-hidden="true"><img src="assets/public/characters/zunda_greeting.png" alt="" loading="lazy"><img src="assets/public/characters/metan_proud.png" alt="" loading="lazy"></div></aside>
+        <div class="guide-steps">
+          <article class="step" id="prepare">
+            <div class="step-heading"><span class="step-number">1</span><div><p class="step-label">最初に一度だけ</p><h3>つくる準備をする</h3></div></div>
+            <p>パソコンと、下の3つを用意します。チェックを付けながら進めてください。</p>
+            <div class="checklist" role="group" aria-label="準備チェックリスト">
+              <div class="check-item"><input id="ready-kit" type="checkbox" class="ready-check"><div><label for="ready-kit">制作キットをダウンロードする</label><p>ZIPを解凍し、できたフォルダを開きます。動画のプログラム・見本の台本・素材が入っています。</p><a class="text-link" href="https://github.com/aboshiDaisuke/zundamon-remotion/archive/refs/heads/main.zip">制作キット一式をダウンロード <span aria-hidden="true">↓</span></a><small>ファイルが多いため、ダウンロードには時間がかかる場合があります。</small></div></div>
+              <div class="check-item"><input id="ready-voice" type="checkbox" class="ready-check"><div><label for="ready-voice">VOICEVOXを入れて、起動する</label><p>文字を、ふたりの声にするソフトです。新しいセリフをつくるときは、起動したままにしておきます。</p><a class="text-link" href="https://voicevox.hiroshiba.jp/" target="_blank" rel="noopener">VOICEVOXの公式サイト <span aria-hidden="true">↗</span></a><small>同梱の見本を再生するだけなら、起動しなくても大丈夫です。</small></div></div>
+              <div class="check-item"><input id="ready-ai" type="checkbox" class="ready-check"><div><label for="ready-ai">AI開発ツールで、キットのフォルダを開く</label><p>パソコンのファイルを編集したり、コマンドを実行したりできるAIツールを使います。下の依頼文を、そのチャットに貼り付けてください。</p><div class="copy-block"><p id="setupPrompt">この動画制作キットを初めて使います。README.mdを読み、Node.jsとPythonが使えるか確認してください。足りない準備を案内し、npm install、npm run doctorを実行して、同梱のDualExplainerをnpm startでプレビューできる状態にしてください。まずは見本の内容を変更せず、再生確認までお願いします。</p><button class="copy-button" type="button" data-copy="setupPrompt">準備の依頼文をコピー <span aria-hidden="true">⧉</span></button></div></div></div>
+            </div>
+            <p class="check-status" id="readyStatus" aria-live="polite">準備のチェック：0 / 3</p>
+            <details class="help-details"><summary>AIを使わず、自分で環境を準備する場合</summary><div class="details-body"><p><a href="https://nodejs.org/" target="_blank" rel="noopener">Node.js</a>（18以上）と<a href="https://www.python.org/downloads/" target="_blank" rel="noopener">Python</a>（3.9以上）を用意します。解凍したキットのフォルダをターミナルで開き、順に実行してください。</p><pre id="setupCommands">npm install
+npm run doctor
+npm start</pre><button class="copy-button secondary" type="button" data-copy="setupCommands">コマンドをコピー</button><p class="small">ターミナルは、文字で操作するためのアプリです。起動したRemotion Studioで「DualExplainer」を選ぶと、見本を確認できます。</p></div></details>
+          </article>
+
+          <article class="step" id="copy-prompts">
+            <div class="step-heading"><span class="step-number pink">2</span><div><p class="step-label">ここから、あなたの動画へ</p><h3>AIにテーマを伝える</h3></div></div>
+            <p>つくりたい内容を入れると、AIへの依頼文ができます。コピーして、キットを開いたAIのチャットに貼り付けましょう。</p>
+            <div class="prompt-builder"><div class="form-row"><div class="field"><label for="topicInput">どんな動画をつくりますか？</label><input id="topicInput" type="text" maxlength="180" value="地元のおすすめスポットを紹介" placeholder="例：コーヒーがおいしくなる淹れ方"></div><div class="field length-field"><label for="durationInput">長さの目安</label><select id="durationInput"><option value="1">約1分</option><option value="3" selected>約3分</option><option value="5">約5分</option></select></div></div>
+              <div class="prompt-output-header"><span>AIに貼り付ける依頼文</span><span class="small">テーマに合わせて自動更新</span></div>
+              <textarea id="masterPromptCode" rows="8" readonly aria-label="生成した動画制作の依頼文">地元のおすすめスポットを紹介する、約3分の動画をつくってください。出演はずんだもんと四国めたんです。README.mdとAGENTS.mdを読み、content/episode.jsonを編集して進めてください。</textarea>
+              <div class="prompt-actions"><button id="btnCopyPrompt" class="button primary" type="button" data-copy="masterPromptCode">この依頼文をコピー <span aria-hidden="true">⧉</span></button><span>出演：<b class="zunda-text">ずんだもん</b> ＆ <b class="metan-text">四国めたん</b></span></div>
+            </div>
+            <div class="tip"><span class="tip-label">伝え方のコツ</span><p>「小学生にもわかる言葉で」「ボケを少し多めに」「1つの話題をじっくり」など、希望を一言足すと、思い描いた動画に近づきます。</p></div>
+          </article>
+
+          <article class="step" id="finish">
+            <div class="step-heading"><span class="step-number">3</span><div><p class="step-label">見て、直して、完成へ</p><h3>確認して動画にする</h3></div></div>
+            <p>まず確認用の画面を見て、セリフの読み方・字幕・画像を確かめます。気になるところは、そのままAIに伝えて直してもらえます。</p>
+            <div class="finish-flow"><div><span>確認する</span><strong>画面と音声をチェック</strong><p>「字幕を短くして」<br>「この地名はこう読むよ」</p></div><span class="flow-arrow" aria-hidden="true">→</span><div><span>書き出す</span><strong>完成したMP4を受け取る</strong><p>AIに「全編を書き出して」<br>と伝えます。</p></div></div>
+            <div class="result-file"><span class="file-icon" aria-hidden="true">▶</span><div><strong>完成動画の保存場所</strong><code>out/zundamon_metan.mp4</code><small>キットの「out」フォルダに入ります。エンディング付きの全編動画です。</small></div></div>
+            <p class="small">公開前に内容と音声を確認し、使用した素材のクレジットを残してください。書き出し時間は動画の長さやパソコンによって変わります。</p>
+          </article>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Section 4: Required Materials & Direct Download Links -->
-  <section class="section bg-alt" id="materials">
-    <div class="container-narrow">
-      <div class="section-header text-center">
-        <span class="pill-tag">FREE ASSETS</span>
-        <h2 class="section-title">必須ソフト・素材の入手先リンク</h2>
-        <p class="section-subtitle">動画制作に必要な無料ソフトとアセット素材の一覧です。</p>
-      </div>
-
-      <div class="materials-list">
-        <div class="material-row">
-          <div class="mat-badge">無料ソフト</div>
-          <div class="mat-info">
-            <div class="mat-title"><strong>VOICEVOX</strong>（ヒロシバ様）</div>
-            <div class="mat-sub">ずんだもん＆四国めたんの高品質音声をローカルAPIで自動生成。Mac / Windows両対応。</div>
-          </div>
-          <a href="https://voicevox.hiroshiba.jp/" target="_blank" rel="noopener" class="btn btn-outline">公式サイト ↗</a>
-        </div>
-
-        <div class="material-row">
-          <div class="mat-badge">立ち絵素材</div>
-          <div class="mat-info">
-            <div class="mat-title"><strong>ずんだもん・四国めたん公式立ち絵</strong>（坂本アヒル様）</div>
-            <div class="mat-sub">ポーズ、表情、目パチ・口パク連動パーツが揃った大人気フリー素材。</div>
-          </div>
-          <span class="mat-credit">立ち絵: 坂本アヒル様</span>
-        </div>
-
-        <div class="material-row">
-          <div class="mat-badge">フォント</div>
-          <div class="mat-info">
-            <div class="mat-title"><strong>けいフォント</strong>（フォントな / MODI工場様）</div>
-            <div class="mat-sub">大見出し・テロップ・字幕に最適なポップで可愛い商用利用可能フォント。</div>
-          </div>
-          <a href="http://fontna.com/" target="_blank" rel="noopener" class="btn btn-outline">配布元を見る ↗</a>
-        </div>
-
-        <div class="material-row">
-          <div class="mat-badge">背景素材</div>
-          <div class="mat-info">
-            <div class="mat-title"><strong>みんちりえ</strong></div>
-            <div class="mat-sub">街並み、駅前、リビング等、解説動画に最適なフリー背景イラスト素材。</div>
-          </div>
-          <a href="https://minchirie.info/" target="_blank" rel="noopener" class="btn btn-outline">公式サイト ↗</a>
-        </div>
-
-        <div class="material-row">
-          <div class="mat-badge">BGM</div>
-          <div class="mat-info">
-            <div class="mat-title"><strong>しゃろう様「2:23 AM」</strong></div>
-            <div class="mat-sub">テンポの良い解説用アンビエント音源（DOVA-SYNDROME）。</div>
-          </div>
-          <span class="mat-credit">BGM: しゃろう</span>
-        </div>
-      </div>
+  <section class="faq-section wrap" id="faq">
+    <div class="section-heading"><p class="eyebrow">迷ったら、ここから</p><h2>よくある質問</h2></div>
+    <div class="faq-list">
+      <details><summary>動画編集やプログラミングの経験がなくても使えますか？</summary><div class="details-body"><p>画面の配置や字幕のデザインは準備済みです。まずは見本を動かし、AIに台本の変更を頼むところから始められます。ソフトのインストールや、ファイルを開く操作は必要です。</p></div></details>
+      <details><summary>このサイトに文章を入れると、動画が完成しますか？</summary><div class="details-body"><p>このページで作成できるのは「AIへの依頼文」です。動画の制作と保存は、ご自身のパソコンで行います。キットをダウンロードし、そのフォルダを編集・実行できるAI開発ツールで開いてください。文章の相談だけができるチャットの場合は、コマンドの実行などを自分で行う必要があります。</p></div></details>
+      <details><summary>スマートフォンでも使えますか？</summary><div class="details-body"><p>このサイトの閲覧、見本動画の再生、依頼文の作成はスマートフォンでもできます。動画を制作する手順は、MacまたはWindowsのパソコンを前提にしています。</p></div></details>
+      <details><summary>費用はかかりますか？</summary><div class="details-body"><p>このリポジトリはダウンロードして使えます。利用するAIツールや画像生成サービスには、別途料金がかかる場合があります。Remotionや各素材の利用条件・ライセンスは、提供元で確認してください。</p><a href="https://www.remotion.dev/license" target="_blank" rel="noopener">Remotionのライセンスを確認する ↗</a></div></details>
+      <details><summary>最初から画像や立ち絵を集める必要はありますか？</summary><div class="details-body"><p>同梱された見本用素材で、最初の動作確認ができます。自分のテーマに合う画像へ変更するのは、そのあとで大丈夫です。別のキャラクターやPSDを使う場合は、素材に合わせた設定が必要です。</p></div></details>
+      <details><summary>エラーが出て、先に進めません。</summary><div class="details-body"><p>エラーの文章をコピーして、キットを開いているAIに「ここで止まりました。原因を確認して」と伝えてください。音声をつくるときはVOICEVOXが起動しているか、最初に確認しましょう。</p><a href="https://github.com/aboshiDaisuke/zundamon-remotion/blob/main/docs/AI_PROMPT_GUIDE.md" target="_blank" rel="noopener">詳しい制作ガイドを見る ↗</a></div></details>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container-narrow text-center">
-      <p class="footer-text">
-        &copy; 2026 Zundamon Vibe Coding Studio. Made with Remotion & VOICEVOX.
-      </p>
-      <p class="footer-text" style="margin-top: 6px;">
-        VOICEVOX:ずんだもん / VOICEVOX:四国めたん / 立ち絵: 坂本アヒル様 / フォント: けいフォント / 背景: みんちりえ / BGM: しゃろう
-      </p>
+  <section class="resources-section wrap" id="materials">
+    <div class="resources-heading"><p class="eyebrow">慣れてきたら</p><h2>詳しい設定と素材について</h2><p>最初は読み飛ばしても大丈夫。必要なときに開いてください。</p></div>
+    <div class="resource-details">
+      <details id="download-rules"><summary>台本の編集・コマンド・設定ファイル</summary><div class="details-body"><p>番組名・セリフ・画像・表情は <code>content/episode.json</code> にまとめています。詳細はリポジトリのガイドへ。</p><a href="https://github.com/aboshiDaisuke/zundamon-remotion/blob/main/docs/AI_PROMPT_GUIDE.md" target="_blank" rel="noopener">制作ガイドを読む ↗</a><div class="command-list"><div><code>npm run audio:dual</code><span>必要な音声をつくる</span></div><div><code>npm run preview</code><span>全シーンの静止画を確認する</span></div><div><code>npm run render</code><span>完成動画を書き出す</span></div></div><p><a href="assets/downloads/zundamon-ai-rules.zip" download>AI向け設定ファイルだけをダウンロード ↓</a><br><small>既存の制作環境へ設定を追加したい方向けです。このZIPだけでは動画制作はできません。</small></p></div></details>
+      <details><summary>立ち絵をPSDから準備する方法</summary><div class="details-body"><p>同梱PNGを使う場合、この作業は不要です。対応する坂本アヒル様のPSD（ずんだもん2.3 / 四国めたん2.1）をキットのフォルダに置き、Pythonの <code>psd-tools</code> と <code>Pillow</code> を用意してから <code>npm run characters</code> を実行します。</p><p>別作者・別キャラクターのPSDは、レイヤーに合わせた対応が必要です。詳しくはREADMEを確認してください。</p></div></details>
+      <details><summary>使用している素材とクレジット</summary><div class="details-body"><dl class="credits"><div><dt>音声</dt><dd><a href="https://voicevox.hiroshiba.jp/" target="_blank" rel="noopener">VOICEVOX</a>：ずんだもん / 四国めたん</dd></div><div><dt>立ち絵</dt><dd>坂本アヒル様</dd></div><div><dt>フォント</dt><dd><a href="https://www.fontna.com/" target="_blank" rel="noopener">けいフォント</a>（フォントな / MODI工場様）</dd></div><div><dt>背景</dt><dd><a href="https://minchirie.info/" target="_blank" rel="noopener">みんちりえ</a></dd></div><div><dt>BGM</dt><dd>しゃろう「2:23 AM」</dd></div></dl><p class="small">公開時は素材ごとの利用条件に従い、動画のクレジットも残してください。素材を変更した場合は、表記も合わせて更新します。</p></div></details>
     </div>
-  </footer>
-
-  <script src="app.js?v=ending_v10"></script>
+  </section>
+  <section class="closing wrap"><div><p class="eyebrow">まずは、ひとつのテーマから。</p><h2>ふたりに、何を話してもらいますか？</h2></div><a href="#copy-prompts" class="button primary">動画のテーマを考える <span aria-hidden="true">↑</span></a></section>
+</main>
+<footer class="footer wrap"><div><strong>ずんだもん動画制作キット</strong><p>VOICEVOX:ずんだもん / VOICEVOX:四国めたん<br>立ち絵: 坂本アヒル様 · 背景: みんちりえ · BGM: しゃろう</p></div><a href="https://github.com/aboshiDaisuke/zundamon-remotion" target="_blank" rel="noopener">GitHubでソースを見る ↗</a></footer>
+<div class="toast" id="copyStatus" role="status" aria-live="polite" aria-atomic="true"></div>
+<noscript><p class="noscript-note">JavaScriptが無効です。依頼文は手動で選択・コピーできます。テーマを書き換えてAIへ送ってください。</p></noscript>
 </body>
 </html>

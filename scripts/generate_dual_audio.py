@@ -1,431 +1,187 @@
 #!/usr/bin/env python3
-"""
-generate_dual_audio.py
-Synthesize fast-paced VOICEVOX audio for Dual Explainer (~80s total)
-Shikoku Metan & Zundamon with brisk pacing (speedScale ~1.18),
-crisp 2-line clean formatted subtitles, and Sharou's '2:23 AM' BGM.
-"""
-
+"""Compile content/episode.json; reuse unchanged voices, measure PCM lip sync."""
+import argparse
+import array
+import hashlib
+import io
 import json
+import math
 import os
-import subprocess
+from pathlib import Path
+import re
+import sys
 import urllib.parse
 import urllib.request
+import wave
 
-VOICEVOX_URL = "http://127.0.0.1:50021"
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-AUDIO_DIR = os.path.join(BASE_DIR, "public", "audio")
-DATA_FILE = os.path.join(BASE_DIR, "src", "dual_scene_data.json")
+BASE = Path(__file__).resolve().parent.parent
+SOURCE = BASE / 'content/episode.json'
+DATA = BASE / 'src/dual_scene_data.json'
+CACHE = BASE / 'src/dual_audio_cache.json'
+VOICEVOX_URL = 'http://127.0.0.1:50021'
+SPEAKERS = {'zundamon': (3, 'ずんだもん'), 'metan': (2, '四国めたん')}
+POSES = {'zundamon': ['listen', 'explain', 'proud', 'shocked', 'hungry', 'dance', 'apology', 'smile', 'greeting'],
+         'metan': ['talk', 'proud', 'point', 'surprise', 'troubled', 'whisper', 'closed']}
 
-os.makedirs(AUDIO_DIR, exist_ok=True)
 
-# 10 Scenes (Speed scale ~1.16-1.18 for brisk, engaging YouTube pacing)
-SCENES = [
-    {
-        "id": "dual_scene1",
-        "topic_num": 1,
-        "speaker_name": "四国めたん",
-        "speaker": 2,
-        "character_speaker": "metan",
-        "text": "ごきげんよう！四国の東の玄関口、\n徳島市の魅力を、たっぷり紹介して差し上げますわ！",
-        "voice_text": "ごきげんよう！四国の、東の玄関口、トクシマ市の魅力を、たっぷり紹介して差し上げますわ！",
-        "topic": "四国の東の玄関口・徳島市",
-        "sub": "四国めたん＆ずんだもんの徳島ナビゲート",
-        "category": "オープニング",
-        "points": [
-            "四国東部に位置する徳島県の県庁所在地（人口約25万人）",
-            "本州と鳴門海峡で直結する「四国の東の玄関口」",
-            "誇らしげに紹介するめたんと、冷めたずんだもん"
-        ],
-        "image": "images/cards/topic01_panorama.jpg",
-        "bg_image": "backgrounds/minchirie_living.jpg",
-        "emotion": "🌸",
-        "intonationScale": 1.15,
-        "speedScale": 1.16
-    },
-    {
-        "id": "dual_scene2",
-        "topic_num": 2,
-        "speaker_name": "ずんだもん",
-        "speaker": 3,
-        "character_speaker": "zundamon",
-        "text": "素晴らしいって…徳島県って日本で唯一、\n「電車が1本も走ってない」県なのだ…全部ディーゼル汽車なのだ",
-        "voice_text": "素晴らしいって…トクシマ県って、日本で唯一、電車が一本も走ってない県なのだ…全部、ディーゼル汽車なのだ",
-        "topic": "自虐① 日本唯一の「電車ゼロ県」",
-        "sub": "すべてディーゼルエンジンで走る「汽車」の街",
-        "category": "交通の真実",
-        "points": [
-            "全国47都道府県で唯一、JRの電化路線が一切存在しない県",
-            "地元民は「電車」と言わず誇りを持って「汽車」と呼ぶ",
-            "架線がないので空が異様に広いという謎のメリット"
-        ],
-        "image": "images/cards/topic02_diesel.jpg",
-        "bg_image": "backgrounds/minchirie_station.jpg",
-        "emotion": "💧",
-        "intonationScale": 1.15,
-        "speedScale": 1.18
-    },
-    {
-        "id": "dual_scene3_1",
-        "topic_num": 3,
-        "speaker_name": "ずんだもん",
-        "speaker": 3,
-        "character_speaker": "zundamon",
-        "text": "休日は全県民がイオンモールに大集合だけど、\n駐車場にやたらと『神戸ナンバー』が多くてビビるのだ…！",
-        "voice_text": "休日は、全県民がイオンモールに大集合だけど、駐車場にやたらと、神戸ナンバーが多くて、ビビるのだ…！",
-        "topic": "自虐② イオン大渋滞と謎の神戸ナンバー",
-        "sub": "休日のショッピングモールで起きる「ナンバー格差」",
-        "category": "街の真実",
-        "points": [
-            "休日は全県民がイオンモールに吸い込まれて駐車場は大渋滞",
-            "駐車場で大量に見かける「神戸ナンバー」の正体は淡路島民",
-            "玉ねぎ畑の住人が名乗る「神戸」への激しいコンプレックス"
-        ],
-        "image": "images/cards/topic03_mall.jpg",
-        "bg_image": "backgrounds/minchirie_city.jpg",
-        "emotion": "🚗",
-        "intonationScale": 1.20,
-        "speedScale": 1.18
-    },
-    {
-        "id": "dual_scene3_2",
-        "topic_num": 3,
-        "speaker_name": "四国めたん",
-        "speaker": 2,
-        "character_speaker": "metan",
-        "text": "あら、都会のセレブがお買い物に来てくださっているのかしら？\nそれなら誇らしいことですわ！",
-        "voice_text": "あら、都会のセレブが、お買い物に来てくださっているのかしら？それなら、誇らしいことですわ！",
-        "topic": "自虐② イオン大渋滞と謎の神戸ナンバー",
-        "sub": "休日のショッピングモールで起きる「ナンバー格差」",
-        "category": "街の真実",
-        "points": [
-            "休日は全県民がイオンモールに吸い込まれて駐車場は大渋滞",
-            "駐車場で大量に見かける「神戸ナンバー」の正体は淡路島民",
-            "玉ねぎ畑の住人が名乗る「神戸」への激しいコンプレックス"
-        ],
-        "image": "images/cards/topic03_mall.jpg",
-        "bg_image": "backgrounds/minchirie_city.jpg",
-        "emotion": "🌸",
-        "intonationScale": 1.15,
-        "speedScale": 1.16
-    },
-    {
-        "id": "dual_scene3_3",
-        "topic_num": 3,
-        "speaker_name": "ずんだもん",
-        "speaker": 3,
-        "character_speaker": "zundamon",
-        "text": "違うのだ！あの神戸ナンバーの正体は、\n海を渡ってきた淡路島の住人なのだ！兵庫県だから神戸ナンバーなのだ！",
-        "voice_text": "違うのだ！あの神戸ナンバーの正体は、海を渡ってきた、淡路島の住人なのだ！兵庫県だから、神戸ナンバーなのだ！",
-        "topic": "自虐② イオン大渋滞と謎の神戸ナンバー",
-        "sub": "休日のショッピングモールで起きる「ナンバー格差」",
-        "category": "街の真実",
-        "points": [
-            "休日は全県民がイオンモールに吸い込まれて駐車場は大渋滞",
-            "駐車場で大量に見かける「神戸ナンバー」の正体は淡路島民",
-            "玉ねぎ畑の住人が名乗る「神戸」への激しいコンプレックス"
-        ],
-        "image": "images/cards/topic03_mall.jpg",
-        "bg_image": "backgrounds/minchirie_city.jpg",
-        "emotion": "💧",
-        "intonationScale": 1.20,
-        "speedScale": 1.18
-    },
-    {
-        "id": "dual_scene3_4",
-        "topic_num": 3,
-        "speaker_name": "四国めたん",
-        "speaker": 2,
-        "character_speaker": "metan",
-        "text": "まあ！あちらは一面の玉ねぎ畑ですのに、\nおしゃれな神戸ナンバーをつけてるなんて…ずるいですわね！",
-        "voice_text": "まあ！あちらは、一面の玉ねぎ畑ですのに、おしゃれな神戸ナンバーをつけてるなんて…ずるいですわね！",
-        "topic": "自虐② イオン大渋滞と謎の神戸ナンバー",
-        "sub": "休日のショッピングモールで起きる「ナンバー格差」",
-        "category": "街の真実",
-        "points": [
-            "休日は全県民がイオンモールに吸い込まれて駐車場は大渋滞",
-            "駐車場で大量に見かける「神戸ナンバー」の正体は淡路島民",
-            "玉ねぎ畑の住人が名乗る「神戸」への激しいコンプレックス"
-        ],
-        "image": "images/cards/topic03_mall.jpg",
-        "bg_image": "backgrounds/minchirie_city.jpg",
-        "emotion": "😅",
-        "intonationScale": 1.18,
-        "speedScale": 1.16
-    },
-    {
-        "id": "dual_scene3_5",
-        "topic_num": 3,
-        "speaker_name": "ずんだもん",
-        "speaker": 3,
-        "character_speaker": "zundamon",
-        "text": "そうなのだ！玉ねぎ畑のくせにおしゃれな神戸ナンバーをつけてて、\n徳島ナンバーの僕たちとしては、激しいコンプレックスなのだ…！",
-        "voice_text": "そうなのだ！玉ねぎ畑のくせに、おしゃれな神戸ナンバーをつけてて、トクシマナンバーの僕たちとしては、激しいコンプレックスなのだ…！",
-        "topic": "自虐② イオン大渋滞と謎の神戸ナンバー",
-        "sub": "休日のショッピングモールで起きる「ナンバー格差」",
-        "category": "街の真実",
-        "points": [
-            "休日は全県民がイオンモールに吸い込まれて駐車場は大渋滞",
-            "駐車場で大量に見かける「神戸ナンバー」の正体は淡路島民",
-            "玉ねぎ畑の住人が名乗る「神戸」への激しいコンプレックス"
-        ],
-        "image": "images/cards/topic03_mall.jpg",
-        "bg_image": "backgrounds/minchirie_city.jpg",
-        "emotion": "🚗",
-        "intonationScale": 1.22,
-        "speedScale": 1.18
-    },
-    {
-        "id": "dual_scene4",
-        "topic_num": 4,
-        "speaker_name": "四国めたん",
-        "speaker": 2,
-        "character_speaker": "metan",
-        "text": "失礼ね！…まあ、唯一のデパートだったそごうが閉店して、\n県内から百貨店が完全に消滅したのは事実ですけれど…",
-        "voice_text": "失礼ね！…まあ、唯一のデパートだったソゴーが閉店して、県内から、百貨店が完全に消滅したのは、事実ですけれど…",
-        "topic": "自虐③ 百貨店完全消滅県",
-        "sub": "そごう徳島店の閉店で起きた贈答品パニック",
-        "category": "商業の現実",
-        "points": [
-            "2020年にそごう徳島店が惜しまれつつ閉店",
-            "山形・福島・島根に続く「デパートのない県」へ突入",
-            "お中元やお歳暮をどこで買うか県民が真剣に悩む事態に"
-        ],
-        "image": "images/cards/topic04_closed_store.jpg",
-        "bg_image": "backgrounds/minchirie_city.jpg",
-        "emotion": "😅",
-        "intonationScale": 1.15,
-        "speedScale": 1.16
-    },
-    {
-        "id": "dual_scene5",
-        "topic_num": 5,
-        "speaker_name": "ずんだもん",
-        "speaker": 3,
-        "character_speaker": "zundamon",
-        "text": "阿波踊りの4日間だけ狂ったように100万人集まるけど、\n残りの361日は驚くほど静まり返ってるのだ…",
-        "voice_text": "アワオドリの四日間だけ、狂ったように百万人集まるけど、残りの、三百六十一日は、驚くほど静まり返ってるのだ…",
-        "topic": "自虐④ 年4日の狂乱と残り361日",
-        "sub": "8月のお盆に全精力を注ぎ込む街",
-        "category": "伝統の落差",
-        "points": [
-            "お盆の4日間は人口の数倍の観光客（約100万人超）が押し寄せる",
-            "祭り終了の翌朝から嘘のように静寂を取り戻す市街地",
-            "「同じ阿呆なら踊らにゃ損々」のエネルギー落差が凄まじい"
-        ],
-        "image": "images/cards/topic05_awaodori.jpg",
-        "bg_image": "backgrounds/minchirie_arcade.jpg",
-        "emotion": "🏮",
-        "intonationScale": 1.15,
-        "speedScale": 1.18
-    },
-    {
-        "id": "dual_scene6",
-        "topic_num": 6,
-        "speaker_name": "四国めたん",
-        "speaker": 2,
-        "character_speaker": "metan",
-        "text": "テレビも大阪の番組が普通に映るから、\n実質、関西の一部みたいなものですわよ！",
-        "voice_text": "テレビも、大阪の番組が普通に映るから、実質、関西の一部みたいなものですわよ！",
-        "topic": "自虐⑤ 実質関西圏？の真相",
-        "sub": "近畿広域圏のテレビ電波と関西愛",
-        "category": "県民性",
-        "points": [
-            "紀伊水道を挟んで大阪のテレビ電波（MBS・ABC・KTV・ytv）が届く",
-            "四国なのにローカルニュースより関西の話題に詳しい",
-            "買い物も高松や松山より神戸・難波に行きがち"
-        ],
-        "image": "images/cards/topic06_kansai_tv.jpg",
-        "bg_image": "backgrounds/minchirie_room.jpg",
-        "emotion": "📺",
-        "intonationScale": 1.15,
-        "speedScale": 1.16
-    },
-    {
-        "id": "dual_scene7",
-        "topic_num": 7,
-        "speaker_name": "ずんだもん",
-        "speaker": 3,
-        "character_speaker": "zundamon",
-        "text": "徳島ラーメンも味が濃すぎて、\n生卵と大盛り白ご飯をつけないと塩分過多で倒れる危険なスープなのだ！",
-        "voice_text": "トクシマラーメンも味が濃すぎて、生卵と大盛りシロゴハンをつけないと、塩分過多で倒れる、危険なスープなのだ！",
-        "topic": "自虐⑥ 濃すぎるソウルフード",
-        "sub": "「おかず系ラーメン」の元祖",
-        "category": "グルメの真実",
-        "points": [
-            "濃厚な甘辛豚骨醤油スープに甘辛豚バラ肉のパンチ力",
-            "もはやラーメン単体ではなく「白ご飯のおかず」として君臨",
-            "生卵を落とさないと喉が渇いてたまらない濃厚さ"
-        ],
-        "image": "images/cards/topic07_ramen.jpg",
-        "bg_image": "backgrounds/minchirie_cafe.jpg",
-        "emotion": "🍜",
-        "intonationScale": 1.18,
-        "speedScale": 1.18
-    },
-    {
-        "id": "dual_scene8",
-        "topic_num": 8,
-        "speaker_name": "四国めたん",
-        "speaker": 2,
-        "character_speaker": "metan",
-        "text": "そして徳島の極上銘菓「小男鹿」！\n高級すぎて、自分用には絶対に買いませんけれど",
-        "voice_text": "そして、トクシマの極上銘菓、サオシカ！高級すぎて、自分用には、絶対に買いませんけれど",
-        "topic": "自虐⑦ 自宅用には高すぎる「小男鹿」",
-        "sub": "山芋と和三盆の上品すぎる極上和菓子",
-        "category": "伝統銘菓",
-        "points": [
-            "観光客は素通りしがちだが徳島県人には別格のステータス",
-            "棹（さお）一本が高級すぎて普段のおやつには手が出ない",
-            "貰ったときだけ一家総出で大喜びして食べる銘菓"
-        ],
-        "image": "images/cards/topic08_saoshika.jpg",
-        "bg_image": "backgrounds/minchirie_room.jpg",
-        "emotion": "🤫",
-        "intonationScale": 1.15,
-        "speedScale": 1.16
-    },
-    {
-        "id": "dual_scene9",
-        "topic_num": 9,
-        "speaker_name": "ずんだもん",
-        "speaker": 3,
-        "character_speaker": "zundamon",
-        "text": "小男鹿は重大なやらかしをした時のガチの謝罪でしか登場しない、\n『ごめんなさいの味』なのだ！徳島県民にはこれを渡すのだ！",
-        "voice_text": "サオシカは、重大なやらかしをした時の、ガチの謝罪でしか登場しない、ゴメンナサイの味なのだ！トクシマ県民には、これを渡すのだ！",
-        "topic": "自虐⑧ 誠意の象徴「ごめんなさいの味」",
-        "sub": "持参すれば本気の謝罪が通じるソウル菓子",
-        "category": "謝罪の切り札",
-        "points": [
-            "ミスやトラブルの謝罪時に持参すると絶大な誠意が伝わる",
-            "「小男鹿を持ってきたなら許すしかない…」となる魔法の味",
-            "徳島県人を宥める最強のコミュニケーションツール"
-        ],
-        "image": "images/cards/topic09_apology.jpg",
-        "bg_image": "backgrounds/minchirie_room.jpg",
-        "emotion": "🙇",
-        "intonationScale": 1.18,
-        "speedScale": 1.18
-    },
-    {
-        "id": "dual_scene10",
-        "topic_num": 10,
-        "speaker_name": "四国めたん＆ずんだもん",
-        "speaker": 2,
-        "character_speaker": "both",
-        "text": "色々申し上げましたけれど、一度味わえば病みつきになるのが徳島市！\nみんなも汽車に乗って、濃いラーメンとごめんなさいの味を体験しに来てほしいのだ！",
-        "voice_text": "色々申し上げましたけれど、一度味わえば病みつきになるのが、トクシマ市の奥深さですわ！",
-        "zunda_voice_text": "みんなも汽車に乗って、濃いラーメンと、ゴメンナサイの味を、体験しに来てほしいのだ！",
-        "topic": "愛ある自虐と本当の魅力",
-        "sub": "ディープで温かい徳島市へぜひお越しください！",
-        "category": "フィナーレ",
-        "points": [
-            "自虐できるのも地元を愛しているからこそ！",
-            "汽車に揺られ、濃厚ラーメンをすすり、小男鹿を味わう旅",
-            "人情味あふれる徳島市で皆様をお待ちしています！"
-        ],
-        "image": "images/cards/topic10_welcome.jpg",
-        "bg_image": "backgrounds/minchirie_living.jpg",
-        "emotion": "✨",
-        "intonationScale": 1.15,
-        "speedScale": 1.17
-    }
-]
+def signature(line, defaults):
+    value = {'voiceText': line.get('voiceText') or line['text'], 'speaker': SPEAKERS[line['speaker']][0],
+             'speed': line.get('speed', defaults['speed']), 'intonation': line.get('intonation', defaults['intonation'])}
+    return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 
-def synthesize_voice(text, speaker, out_path, intonation=1.15, speed=1.18):
-    query_url = f"{VOICEVOX_URL}/audio_query?text={urllib.parse.quote(text)}&speaker={speaker}"
-    req = urllib.request.Request(query_url, method="POST")
-    with urllib.request.urlopen(req) as resp:
-        query_data = json.loads(resp.read().decode("utf-8"))
 
-    query_data["intonationScale"] = intonation
-    query_data["speedScale"] = speed
-    query_data["volumeScale"] = 1.6
+def public_file(relative):
+    candidate = (BASE / 'public' / relative).resolve()
+    if not candidate.is_relative_to((BASE / 'public').resolve()):
+        raise ValueError(f'素材パスは public/ 内を指定してください: {relative}')
+    return candidate
 
-    synth_url = f"{VOICEVOX_URL}/synthesis?speaker={speaker}"
-    synth_req = urllib.request.Request(
-        synth_url,
-        data=json.dumps(query_data).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
-        method="POST"
-    )
 
-    raw_wav = out_path + ".raw.wav"
-    with urllib.request.urlopen(synth_req) as resp, open(raw_wav, "wb") as f:
-        f.write(resp.read())
+def validate(episode):
+    defaults = episode['audio']
+    if defaults['fps'] != 30:
+        raise ValueError('現在のテンプレートは30fpsです。audio.fps は30にしてください。')
+    for k in ('eyebrow', 'title', 'label', 'outro'):
+        if not isinstance(episode['program'][k], str) or not episode['program'][k].strip():
+            raise ValueError(f'program.{k} を入力してください。')
+    if not 0 <= defaults['bgmVolume'] <= 0.3:
+        raise ValueError('bgmVolume は0〜0.3にしてください。')
+    if not episode['topics']:
+        raise ValueError('topics に最低1つの話題を追加してください。')
+    public_file(defaults['bgm']).stat()
+    public_file('fonts/keifont.ttf').stat()
+    ids = set()
+    for n, topic in enumerate(episode['topics'], 1):
+        if topic['number'] != n:
+            raise ValueError('topic.number は1からの連番にしてください。')
+        for key in ('title', 'corner', 'category'):
+            if not isinstance(topic[key], str) or not topic[key].strip():
+                raise ValueError(f'話題{n}: {key} が空です。')
+        if not 1 <= len(topic['points']) <= 3 or any(not p.strip() for p in topic['points']):
+            raise ValueError(f'話題{n}: points は1〜3行にしてください。')
+        for key in ('image', 'background'):
+            public_file(topic[key]).stat()
+        if not topic['lines']:
+            raise ValueError(f'話題{n}にセリフがありません。')
+        for line in topic['lines']:
+            identifier = line['id']
+            if not re.fullmatch(r'[a-zA-Z0-9_-]+', identifier) or identifier in ids:
+                raise ValueError(f'セリフIDは重複しない英数字・_・-で指定してください: {identifier}')
+            ids.add(identifier)
+            if line['speaker'] not in SPEAKERS:
+                raise ValueError(f'{identifier}: speaker は zundamon / metan を指定してください。')
+            if not line['text'].strip():
+                raise ValueError(f'{identifier}: セリフが空です。')
+            for key, low, high in [('speed', 1.0, 1.4), ('intonation', 0.8, 1.5), ('pause', 0, 2)]:
+                val = line.get(key, defaults[key])
+                if not isinstance(val, (int, float)) or not low <= val <= high:
+                    raise ValueError(f'{identifier}: {key} は {low}〜{high} にしてください。')
+            for actor, choices in POSES.items():
+                pose = line.get('expressions', {}).get(actor, 'listen' if actor == 'zundamon' else 'proud')
+                if pose not in choices:
+                    raise ValueError(f'{identifier}: {actor} の表情 {pose} は未対応です。')
+                prefix = 'zunda' if actor == 'zundamon' else 'metan'
+                for mouth in ('open', 'close', 'blink_open', 'blink_close'):
+                    public_file(f'characters/{prefix}_{pose}_{mouth}.png').stat()
 
-    # Normalize to -14 LUFS stereo 48kHz
-    cmd = [
-        "ffmpeg", "-y", "-i", raw_wav,
-        "-af", "loudnorm=I=-14:LRA=11:TP=-1.5,volume=1.2",
-        "-ar", "48000", "-ac", "2",
-        out_path
-    ]
-    subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
-    if os.path.exists(raw_wav):
-        os.remove(raw_wav)
 
-def get_audio_duration(wav_path):
-    cmd = [
-        "ffprobe", "-v", "error", "-show_entries",
-        "format=duration", "-of", "default=noprint_wrappers=1:nokey=1",
-        wav_path
-    ]
-    res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
-    return float(res.stdout.strip())
+def read_pcm(path, fps):
+    with wave.open(str(path), 'rb') as wav:
+        if wav.getsampwidth() != 2 or wav.getcomptype() != 'NONE':
+            raise ValueError(f'16bit PCM WAVが必要です: {path.name}')
+        rate, channels, count = wav.getframerate(), wav.getnchannels(), wav.getnframes()
+        samples = array.array('h', wav.readframes(count))
+        if sys.byteorder != 'little':
+            samples.byteswap()
+    energies = []
+    for frame in range(math.ceil(count / rate * fps)):
+        segment = samples[int(frame * rate / fps) * channels:int((frame + 1) * rate / fps) * channels]
+        energies.append(math.sqrt(sum(v * v for v in segment) / max(1, len(segment))) / 32768)
+    # Relative gate follows the recording's actual loudness; silence stays closed.
+    threshold = max(0.012, max(energies, default=0) * 0.14)
+    return count / rate, [round(min(1, e / threshold), 3) for e in energies]
 
-print("Synthesizing fast-paced dialogue audios (~1.18x speed)...")
-total_frames = 0
-fps = 30
 
-for idx, scene in enumerate(SCENES):
-    out_wav = os.path.join(AUDIO_DIR, f"{scene['id']}.wav")
-    
-    if scene["id"] == "dual_scene10":
-        m_wav = os.path.join(AUDIO_DIR, "scene10_metan.wav")
-        z_wav = os.path.join(AUDIO_DIR, "scene10_zunda.wav")
-        synthesize_voice(scene["voice_text"], 2, m_wav, scene["intonationScale"], scene["speedScale"])
-        synthesize_voice(scene["zunda_voice_text"], 3, z_wav, scene["intonationScale"], scene["speedScale"])
-        concat_list = os.path.join(AUDIO_DIR, "concat.txt")
-        with open(concat_list, "w") as f:
-            f.write(f"file '{m_wav}'\n")
-            f.write(f"file '{z_wav}'\n")
-        cmd = ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", concat_list, "-c", "copy", out_wav]
-        subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
-        os.remove(concat_list)
-        os.remove(m_wav)
-        os.remove(z_wav)
-    else:
-        synthesize_voice(
-            scene["voice_text"],
-            scene["speaker"],
-            out_wav,
-            scene["intonationScale"],
-            scene["speedScale"]
-        )
+def synthesize(line, defaults, destination):
+    speaker = SPEAKERS[line['speaker']][0]
+    args = urllib.parse.urlencode({'text': line.get('voiceText') or line['text'], 'speaker': speaker})
+    req = urllib.request.Request(f'{VOICEVOX_URL}/audio_query?{args}', method='POST')
+    with urllib.request.urlopen(req, timeout=30) as response:
+        query = json.load(response)
+    query.update(speedScale=line.get('speed', defaults['speed']),
+                 intonationScale=line.get('intonation', defaults['intonation']),
+                 volumeScale=1.0, outputSamplingRate=48000, outputStereo=True)
+    req = urllib.request.Request(f'{VOICEVOX_URL}/synthesis?speaker={speaker}',
+                                 data=json.dumps(query).encode(),
+                                 headers={'Content-Type': 'application/json'}, method='POST')
+    with urllib.request.urlopen(req, timeout=120) as response:
+        raw = response.read()
+    with wave.open(io.BytesIO(raw), 'rb') as wav:
+        if wav.getnframes() == 0:
+            raise ValueError('VOICEVOXから空の音声が返されました。')
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temp = destination.with_suffix('.tmp.wav')
+    temp.write_bytes(raw)
+    read_pcm(temp, defaults['fps'])
+    temp.replace(destination)
 
-    dur = get_audio_duration(out_wav)
-    pause_sec = 0.35
-    scene_frames = int((dur + pause_sec) * fps)
-    
-    scene["audioFile"] = f"audio/{scene['id']}.wav"
-    scene["duration"] = dur
-    scene["durationInFrames"] = scene_frames
-    scene["startFrame"] = total_frames
-    
-    print(f"[{scene['id']}] {scene['speaker_name']}: {dur:.2f}s ({scene_frames} frames)")
-    total_frames += scene_frames
 
-total_duration = total_frames / fps
-output_data = {
-    "fps": fps,
-    "totalFrames": total_frames,
-    "totalDuration": total_duration,
-    "scenes": SCENES
-}
+def atomic_json(path, value):
+    temp = path.with_suffix('.tmp.json')
+    temp.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    temp.replace(path)
 
-with open(DATA_FILE, "w", encoding="utf-8") as f:
-    json.dump(output_data, f, ensure_ascii=False, indent=2)
 
-print(f"\nAll fast-paced audio synthesized successfully!")
-print(f"Total Duration: {total_duration:.2f}s ({total_frames} frames) at {fps} fps.")
+def compile_episode(cached_only=False, check=False):
+    episode = json.loads(SOURCE.read_text(encoding='utf-8'))
+    validate(episode)
+    if check:
+        print(f'台本・素材チェック OK: {len(episode["topics"])}話題')
+        return
+    defaults = episode['audio']
+    cache = json.loads(CACHE.read_text()) if CACHE.exists() else {}
+    scenes, total = [], 0
+    for topic in episode['topics']:
+        for line in topic['lines']:
+            key = signature(line, defaults)
+            entry = cache.get(key)
+            valid = entry and public_file(entry['file']).is_file()
+            if valid:
+                valid = hashlib.sha256(public_file(entry['file']).read_bytes()).hexdigest() == entry['sha256']
+            if not valid:
+                if cached_only:
+                    raise ValueError(f'{line["id"]}: 音声が未生成または台詞が変更されています。VOICEVOXを起動して npm run audio:dual を実行してください。')
+                relative = f'audio/generated/{line["id"]}-{key[:12]}.wav'
+                print(f'音声合成: {line["id"]}', flush=True)
+                synthesize(line, defaults, public_file(relative))
+                entry = {'file': relative, 'sha256': hashlib.sha256(public_file(relative).read_bytes()).hexdigest()}
+                cache[key] = entry
+            duration, envelope = read_pcm(public_file(entry['file']), defaults['fps'])
+            frames = math.ceil((duration + line.get('pause', defaults['pause'])) * defaults['fps'])
+            scene = {'id': line['id'], 'topic_num': topic['number'], 'topic': topic['title'],
+                     'sub': topic['corner'], 'category': topic['category'], 'points': topic['points'],
+                     'image': topic['image'], 'bg_image': topic['background'], 'text': line['text'],
+                     'character_speaker': line['speaker'], 'speaker_name': SPEAKERS[line['speaker']][1],
+                     'expressions': {'zundamon': 'listen', 'metan': 'proud', **line.get('expressions', {})},
+                     'audioFile': entry['file'], 'duration': duration, 'durationInFrames': frames,
+                     'startFrame': total, 'mouthLevels': envelope}
+            scenes.append(scene)
+            total += frames
+    # Publish only after ALL lines are valid; old data and its audio remain usable on failure.
+    atomic_json(CACHE, cache)
+    atomic_json(DATA, {'fps': defaults['fps'], 'totalFrames': total,
+                      'totalDuration': total / defaults['fps'], 'program': episode['program'],
+                      'audio': defaults, 'scenes': scenes})
+    print(f'台本・音声同期 OK: {len(scenes)}セリフ / {total / defaults["fps"]:.1f}秒 + エンディング')
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--cached', action='store_true', help='既存音声だけで字幕・画像・表情を更新')
+    parser.add_argument('--check', action='store_true', help='台本と素材を検査（変更なし）')
+    options = parser.parse_args()
+    try:
+        compile_episode(options.cached, options.check)
+    except (ValueError, KeyError, OSError, wave.Error) as exc:
+        print(f'制作チェック: {exc}', file=sys.stderr)
+        sys.exit(1)

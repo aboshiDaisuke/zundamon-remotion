@@ -1,0 +1,349 @@
+{
+  "program": {
+    "eyebrow": "ずんだもん × 四国めたんの街あるき",
+    "title": "知るほどおもしろい、徳島。",
+    "label": "徳島さんぽ",
+    "outro": "次の街でも、また会いましょう！"
+  },
+  "audio": {
+    "fps": 30,
+    "speed": 1.17,
+    "intonation": 1.17,
+    "pause": 0.35,
+    "bgm": "audio/bgm.mp3",
+    "bgmVolume": 0.1
+  },
+  "topics": [
+    {
+      "number": 1,
+      "title": "四国の東の玄関口・徳島市",
+      "corner": "四国めたん＆ずんだもんの徳島ナビゲート",
+      "category": "オープニング",
+      "points": [
+        "本州と鳴門海峡でつながる街",
+        "阿波おどりと水都の風景",
+        "地元愛たっぷりの徳島案内"
+      ],
+      "image": "images/cards/topic01_panorama.jpg",
+      "background": "backgrounds/minchirie_living.jpg",
+      "lines": [
+        {
+          "id": "dual_scene1",
+          "speaker": "metan",
+          "text": "ごきげんよう！四国の東の玄関口、\n徳島市の魅力を、たっぷり紹介して差し上げますわ！",
+          "voiceText": "ごきげんよう！四国の、東の玄関口、トクシマ市の魅力を、たっぷり紹介して差し上げますわ！",
+          "speed": 1.16,
+          "intonation": 1.15,
+          "expressions": {
+            "zundamon": "listen",
+            "metan": "proud"
+          }
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "「電車」ではなく「汽車」",
+      "corner": "すべてディーゼルエンジンで走る「汽車」の街",
+      "category": "交通の真実",
+      "points": [
+        "JRの列車はディーゼルで走る",
+        "地元ではおなじみの「汽車」",
+        "架線がない、広い空も魅力"
+      ],
+      "image": "images/cards/topic02_diesel.jpg",
+      "background": "backgrounds/minchirie_station.jpg",
+      "lines": [
+        {
+          "id": "dual_scene2",
+          "speaker": "zundamon",
+          "text": "素晴らしいって…徳島県って日本で唯一、\n「電車が1本も走ってない」県なのだ…全部ディーゼル汽車なのだ",
+          "voiceText": "素晴らしいって…トクシマ県って、日本で唯一、電車が一本も走ってない県なのだ…全部、ディーゼル汽車なのだ",
+          "speed": 1.18,
+          "intonation": 1.15,
+          "expressions": {
+            "zundamon": "shocked",
+            "metan": "troubled"
+          }
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "神戸ナンバーの意外な正体",
+      "corner": "休日のショッピングモールで起きる「ナンバー格差」",
+      "category": "街の真実",
+      "points": [
+        "休日のイオンは車でいっぱい",
+        "神戸ナンバーには淡路島の車も",
+        "近くて気になる、お隣の存在"
+      ],
+      "image": "images/cards/topic03_mall.jpg",
+      "background": "backgrounds/minchirie_city.jpg",
+      "lines": [
+        {
+          "id": "dual_scene3_1",
+          "speaker": "zundamon",
+          "text": "休日は全県民がイオンモールに大集合だけど、\n駐車場にやたらと『神戸ナンバー』が多くてビビるのだ…！",
+          "voiceText": "休日は、全県民がイオンモールに大集合だけど、駐車場にやたらと、神戸ナンバーが多くて、ビビるのだ…！",
+          "speed": 1.18,
+          "intonation": 1.2,
+          "expressions": {
+            "zundamon": "explain",
+            "metan": "surprise"
+          }
+        },
+        {
+          "id": "dual_scene3_2",
+          "speaker": "metan",
+          "text": "あら、都会のセレブがお買い物に来てくださっているのかしら？\nそれなら誇らしいことですわ！",
+          "voiceText": "あら、都会のセレブが、お買い物に来てくださっているのかしら？それなら、誇らしいことですわ！",
+          "speed": 1.16,
+          "intonation": 1.15,
+          "expressions": {
+            "zundamon": "explain",
+            "metan": "surprise"
+          }
+        },
+        {
+          "id": "dual_scene3_3",
+          "speaker": "zundamon",
+          "text": "違うのだ！あの神戸ナンバーの正体は、\n海を渡ってきた淡路島の住人なのだ！兵庫県だから神戸ナンバーなのだ！",
+          "voiceText": "違うのだ！あの神戸ナンバーの正体は、海を渡ってきた、淡路島の住人なのだ！兵庫県だから、神戸ナンバーなのだ！",
+          "speed": 1.18,
+          "intonation": 1.2,
+          "expressions": {
+            "zundamon": "explain",
+            "metan": "surprise"
+          }
+        },
+        {
+          "id": "dual_scene3_4",
+          "speaker": "metan",
+          "text": "まあ！あちらは一面の玉ねぎ畑ですのに、\nおしゃれな神戸ナンバーをつけてるなんて…ずるいですわね！",
+          "voiceText": "まあ！あちらは、一面の玉ねぎ畑ですのに、おしゃれな神戸ナンバーをつけてるなんて…ずるいですわね！",
+          "speed": 1.16,
+          "intonation": 1.18,
+          "expressions": {
+            "zundamon": "explain",
+            "metan": "surprise"
+          }
+        },
+        {
+          "id": "dual_scene3_5",
+          "speaker": "zundamon",
+          "text": "そうなのだ！玉ねぎ畑のくせにおしゃれな神戸ナンバーをつけてて、\n徳島ナンバーの僕たちとしては、激しいコンプレックスなのだ…！",
+          "voiceText": "そうなのだ！玉ねぎ畑のくせに、おしゃれな神戸ナンバーをつけてて、トクシマナンバーの僕たちとしては、激しいコンプレックスなのだ…！",
+          "speed": 1.18,
+          "intonation": 1.22,
+          "expressions": {
+            "zundamon": "shocked",
+            "metan": "surprise"
+          }
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "百貨店がなくなった街",
+      "corner": "そごう徳島店の閉店で起きた贈答品パニック",
+      "category": "商業の現実",
+      "points": [
+        "駅前の百貨店が閉店",
+        "贈り物を買う場所にも変化",
+        "街の景色と暮らしを語る"
+      ],
+      "image": "images/cards/topic04_closed_store.jpg",
+      "background": "backgrounds/minchirie_city.jpg",
+      "lines": [
+        {
+          "id": "dual_scene4",
+          "speaker": "metan",
+          "text": "失礼ね！…まあ、唯一のデパートだったそごうが閉店して、\n県内から百貨店が完全に消滅したのは事実ですけれど…",
+          "voiceText": "失礼ね！…まあ、唯一のデパートだったソゴーが閉店して、県内から、百貨店が完全に消滅したのは、事実ですけれど…",
+          "speed": 1.16,
+          "intonation": 1.15,
+          "expressions": {
+            "zundamon": "proud",
+            "metan": "troubled"
+          }
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "阿波おどり、その熱気と日常",
+      "corner": "8月のお盆に全精力を注ぎ込む街",
+      "category": "伝統の落差",
+      "points": [
+        "街が踊りに包まれる夏",
+        "祭りの熱気は圧巻",
+        "普段の静けさも徳島らしさ"
+      ],
+      "image": "images/cards/topic05_awaodori.jpg",
+      "background": "backgrounds/minchirie_arcade.jpg",
+      "lines": [
+        {
+          "id": "dual_scene5",
+          "speaker": "zundamon",
+          "text": "阿波踊りの4日間だけ狂ったように100万人集まるけど、\n残りの361日は驚くほど静まり返ってるのだ…",
+          "voiceText": "アワオドリの四日間だけ、狂ったように百万人集まるけど、残りの、三百六十一日は、驚くほど静まり返ってるのだ…",
+          "speed": 1.18,
+          "intonation": 1.15,
+          "expressions": {
+            "zundamon": "dance",
+            "metan": "troubled"
+          }
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "徳島は「実質関西」？",
+      "corner": "近畿広域圏のテレビ電波と関西愛",
+      "category": "県民性",
+      "points": [
+        "海の向こうはすぐ関西",
+        "テレビや言葉にも親しみ",
+        "近さゆえの地元あるある"
+      ],
+      "image": "images/cards/topic06_kansai_tv.jpg",
+      "background": "backgrounds/minchirie_room.jpg",
+      "lines": [
+        {
+          "id": "dual_scene6",
+          "speaker": "metan",
+          "text": "テレビも大阪の番組が普通に映るから、\n実質、関西の一部みたいなものですわよ！",
+          "voiceText": "テレビも、大阪の番組が普通に映るから、実質、関西の一部みたいなものですわよ！",
+          "speed": 1.16,
+          "intonation": 1.15,
+          "expressions": {
+            "zundamon": "listen",
+            "metan": "whisper"
+          }
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "title": "ご飯が進む徳島ラーメン",
+      "corner": "「おかず系ラーメン」の元祖",
+      "category": "グルメの真実",
+      "points": [
+        "濃厚なスープと甘辛い肉",
+        "生卵をからめてまろやかに",
+        "白ご飯と一緒に味わいたい"
+      ],
+      "image": "images/cards/topic07_ramen.jpg",
+      "background": "backgrounds/minchirie_cafe.jpg",
+      "lines": [
+        {
+          "id": "dual_scene7",
+          "speaker": "zundamon",
+          "text": "徳島ラーメンも味が濃すぎて、\n生卵と大盛り白ご飯をつけないと塩分過多で倒れる危険なスープなのだ！",
+          "voiceText": "トクシマラーメンも味が濃すぎて、生卵と大盛りシロゴハンをつけないと、塩分過多で倒れる、危険なスープなのだ！",
+          "speed": 1.18,
+          "intonation": 1.18,
+          "expressions": {
+            "zundamon": "hungry",
+            "metan": "surprise"
+          }
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "特別な贈り物「小男鹿」",
+      "corner": "山芋と和三盆の上品すぎる極上和菓子",
+      "category": "伝統銘菓",
+      "points": [
+        "ふんわりとした上品な和菓子",
+        "読み方は「さおしか」",
+        "大切な人への贈り物に"
+      ],
+      "image": "images/cards/topic08_saoshika.jpg",
+      "background": "backgrounds/minchirie_room.jpg",
+      "lines": [
+        {
+          "id": "dual_scene8",
+          "speaker": "metan",
+          "text": "そして徳島の極上銘菓「小男鹿」！\n高級すぎて、自分用には絶対に買いませんけれど",
+          "voiceText": "そして、トクシマの極上銘菓、サオシカ！高級すぎて、自分用には、絶対に買いませんけれど",
+          "speed": 1.16,
+          "intonation": 1.15,
+          "expressions": {
+            "zundamon": "listen",
+            "metan": "closed"
+          }
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "title": "誠意を込めた「小男鹿」",
+      "corner": "持参すれば本気の謝罪が通じるソウル菓子",
+      "category": "謝罪の切り札",
+      "points": [
+        "大切な場面で選ばれる贈り物",
+        "お詫びの気持ちを込めることも",
+        "地元で親しまれる特別な味"
+      ],
+      "image": "images/cards/topic09_apology.jpg",
+      "background": "backgrounds/minchirie_room.jpg",
+      "lines": [
+        {
+          "id": "dual_scene9",
+          "speaker": "zundamon",
+          "text": "小男鹿は重大なやらかしをした時のガチの謝罪でしか登場しない、\n『ごめんなさいの味』なのだ！徳島県民にはこれを渡すのだ！",
+          "voiceText": "サオシカは、重大なやらかしをした時の、ガチの謝罪でしか登場しない、ゴメンナサイの味なのだ！トクシマ県民には、これを渡すのだ！",
+          "speed": 1.18,
+          "intonation": 1.18,
+          "expressions": {
+            "zundamon": "apology",
+            "metan": "troubled"
+          }
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "title": "語りたくなる、徳島の魅力",
+      "corner": "ディープで温かい徳島市へぜひお越しください！",
+      "category": "フィナーレ",
+      "points": [
+        "汽車に揺られて街を巡る",
+        "ラーメンも小男鹿も味わう",
+        "あなたも徳島を訪れてみませんか"
+      ],
+      "image": "images/cards/topic10_welcome.jpg",
+      "background": "backgrounds/minchirie_living.jpg",
+      "lines": [
+        {
+          "id": "dual_scene10_metan",
+          "speaker": "metan",
+          "text": "色々申し上げましたけれど、一度味わえば\n病みつきになるのが徳島市の奥深さですわ！",
+          "voiceText": "色々申し上げましたけれど、一度味わえば病みつきになるのが、トクシマ市の奥深さですわ！",
+          "speed": 1.17,
+          "intonation": 1.15,
+          "expressions": {
+            "zundamon": "smile",
+            "metan": "proud"
+          },
+          "pause": 0
+        },
+        {
+          "id": "dual_scene10_zundamon",
+          "speaker": "zundamon",
+          "text": "みんなも汽車に乗って、濃いラーメンと、\n「ごめんなさいの味」を体験しに来てほしいのだ！",
+          "voiceText": "みんなも汽車に乗って、濃いラーメンと、ゴメンナサイの味を、体験しに来てほしいのだ！",
+          "speed": 1.17,
+          "intonation": 1.15,
+          "expressions": {
+            "zundamon": "smile",
+            "metan": "proud"
+          }
+        }
+      ]
+    }
+  ]
+}

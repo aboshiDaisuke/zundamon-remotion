@@ -1,5 +1,20 @@
 # CLAUDE.md - ずんだもん＆四国めたん Remotion動画制作ガイドライン
 
+
+## 制作データの編集入口（更新済み）
+
+- 台本・番組名・画像・表情の編集元は **`content/episode.json`** 一つ。
+- `src/dual_scene_data.json` は生成物。Python内のSCENESや生成JSONの二重編集は不要。
+- 画面だけの変更: `npm run sync` → `npm run preview` → 目視確認 → `npm run render`。
+- セリフ変更: VOICEVOXを起動し `npm run audio:dual`。変更した音声のみ再合成。
+- 一つのlineは一人の話者。`speaker` は `zundamon` / `metan`。話者交代を固定フレームで実装しない。
+- 表情は `expressions` で二人それぞれに指定。口パクは音量、まばたきは専用PNGに連動。
+- 対応PSDの抽出は `npm run characters`。別キャラのPSDはレイヤー対応が必要。
+- 見出し38px・要点24px・字幕33pxを維持。字幕は最大2行で自動ページ分割。要点は短く3行以内。
+- 全シーンの静止画一覧は `out/review/index.html`。完全版は `out/zundamon_metan.mp4`。
+- 詳しい編集方法は `docs/AI_PROMPT_GUIDE.md`。旧手順と異なる場合はこの更新内容を使う。
+
+
 このプロジェクトは、Remotion（React 18 + TypeScript）とVOICEVOXを用いた解説・掛け合い動画を制作するワークスペースです。
 macOS / Windows のどちらでも動作するよう設計されています。
 
@@ -59,7 +74,7 @@ macOS / Windows のどちらでも動作するよう設計されています。
 4. **中央カードのイラスト**:
    - `public/images/cards/topicNN_<内容>.jpg` に **1720×770（2.23:1）** で置く。
    - 全話を「明るいTVアニメの背景美術風」で統一。**文字・ロゴ・数字を描かない**（見出しと解説文はカード側で出す）。**キャラクターも描かない**（左右に常駐しているため）。
-   - 差し替え時は `scripts/generate_dual_audio.py` の `SCENES` と `src/dual_scene_data.json` の両方の `image` を更新する。
+   - 差し替え時は `content/episode.json` の `topics[].image` を更新し、`npm run sync` を実行する。
    - 生成手順は `.agents/skills/remotion-video-workflow/SKILL.md` の「カードイラストの作り方」に従う。
 
 5. **エンディング**:

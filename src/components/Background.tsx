@@ -35,7 +35,7 @@ export const Background: React.FC<BackgroundProps> = ({ bgImage }) => {
               height: "100%",
               objectFit: "cover",
               transform: `scale(${bgScale})`,
-              filter: "blur(6px) saturate(0.9)",
+              filter: "blur(12px) saturate(0.65)",
             }}
           />
           {/* Soft veil so the card, characters and subtitles stay legible */}
@@ -44,7 +44,7 @@ export const Background: React.FC<BackgroundProps> = ({ bgImage }) => {
               position: "absolute",
               inset: 0,
               background:
-                "linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.18) 55%, rgba(20,40,20,0.28) 100%)",
+                "linear-gradient(180deg, rgba(250,252,246,0.70) 0%, rgba(250,252,246,0.64) 55%, rgba(230,239,227,0.82) 100%)",
             }}
           />
         </>
@@ -55,10 +55,10 @@ export const Background: React.FC<BackgroundProps> = ({ bgImage }) => {
           position: "absolute",
           bottom: `${1080 - SAFE.bottom}px`,
           right: `${1920 - SAFE.right}px`,
-          color: "rgba(255, 255, 255, 0.9)",
+          color: "#405d4c",
           fontSize: "14px",
           fontWeight: 600,
-          textShadow: "0 1px 3px rgba(0,0,0,0.5)",
+          textShadow: "0 1px 2px rgba(255,255,255,0.8)",
           zIndex: 30,
         }}
       >

@@ -1,0 +1,62 @@
+{
+  "427cce23e6927bd928eee0bd2bdf51afb88feefcdf667ff5a9fe570e3dfb5f3f": {
+    "file": "audio/dual_scene1.wav",
+    "sha256": "d5f09d120188149513ccd2e9a3f271e91f89434ce61d0e04df0efc9fc3d7d4d7"
+  },
+  "991edbc23fdffa5f94f4a6ffe3452a96387b2e12dacc2308a3deb35209a4da66": {
+    "file": "audio/dual_scene2.wav",
+    "sha256": "41cb9f8364fc69db31caa0a49f199cc8778c0e72773d23aa9b63fe7a47f2f083"
+  },
+  "f71faf2ff8cacc0c9afa9d7330435bce35fbf1098c25f92ffb4ff7fa9085f7c5": {
+    "file": "audio/dual_scene3_1.wav",
+    "sha256": "ab702ee9d4b5befa148216c1428ae24cef203e69f238e9521f6f93e11a1596e6"
+  },
+  "9d3577679fae5287a922a675bf5b9fb3ff41843d7dde9b9bc7d69a6dbfce68e5": {
+    "file": "audio/dual_scene3_2.wav",
+    "sha256": "ef532bb8310d47a3236e1fc22a56816954f66c9b79be5067d442852b939703af"
+  },
+  "63b9b4842c956338e389ec13dabdb6bbcffec5237101cfa1355e18f31068221c": {
+    "file": "audio/dual_scene3_3.wav",
+    "sha256": "643b060ad881a46af730752ae67547672e027a32a636fc350016f9fda36a40f6"
+  },
+  "cce6527a54a6f8bffb16a22b34945164e5fa4d0b176e5b67d5e10c2006700a12": {
+    "file": "audio/dual_scene3_4.wav",
+    "sha256": "b821d69f2dd5b712a50a4dc4e83d750add8ed3ba055616cc0e1a71864d9b91dc"
+  },
+  "97938f64667e5ae69cfe4cab7f2391efb0b9215d7d73e2b2931e608754781423": {
+    "file": "audio/dual_scene3_5.wav",
+    "sha256": "b69d8e93fe280357224e9ebf8761dbba4dcfbca0461e734557d508f29a7400be"
+  },
+  "5724838a86fd93e2946013300d16ef600f219776ea9466cffc0174d0857f985b": {
+    "file": "audio/dual_scene4.wav",
+    "sha256": "2f51c7eb57533feb34d78d94762257f0d65067fb174af288d28f9d642967157a"
+  },
+  "9718345835db45488d1e2ae813ff8c5139cf080db45b199b5f5cb3498a1cf0e0": {
+    "file": "audio/dual_scene5.wav",
+    "sha256": "a9369cabaceab8258f3450f8061069d3ffc07b7486865f0cb133fcbec05ccbd4"
+  },
+  "d95d9d827fb1a77a3ac72a15322115aace8d052a2ed74d68a6ee827d06c4bb05": {
+    "file": "audio/dual_scene6.wav",
+    "sha256": "0ce284a25958808f463c6a13cb748c73291218cb775b0ba621f338abd1ad9695"
+  },
+  "998e33cb0178efe1e0c509121793348bfffb64e5d2403b61ca0e797d0a223191": {
+    "file": "audio/dual_scene7.wav",
+    "sha256": "4abd1bb4ec1a280d983ba4f9c435bad36acc9c1f7c77a7389e4837371178d179"
+  },
+  "8d4748dcec39dadaccb95075f7f08f54f4d9f7c790bf3e4793211fe169d5fe08": {
+    "file": "audio/dual_scene8.wav",
+    "sha256": "9036c41c3ec9b6f5e136e51f447da1252151b72a94fc3c5c7eda298b4b6651b5"
+  },
+  "f466039911c193bc17a13e5acb294bc2ef448a5f44fbf38ae3975d549a452717": {
+    "file": "audio/dual_scene9.wav",
+    "sha256": "5584bc80c88495f471f4717fb36b32affd963e6dc9ec33a42e57a8c770e8d3ee"
+  },
+  "9c63d0d08f4b7d2eafd4c8ec640358c6da41e80ae39dba5db87f73bbbf1e794b": {
+    "file": "audio/dual_scene10_metan.wav",
+    "sha256": "d6a95b55c8ec5a5ea9fc55b129b4e8866abb885b30e401de81a3eefd0d73d58b"
+  },
+  "1131b69b26012aea31754ddf0f5663a0c0401615983e799f75365d949aa47fdf": {
+    "file": "audio/dual_scene10_zundamon.wav",
+    "sha256": "3e8210c5d7a1780b0d5e91cf038a939e0de4178e145bc9acde248a623949f3fc"
+  }
+}

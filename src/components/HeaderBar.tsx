@@ -1,73 +1,29 @@
-import React from "react";
-import { KEI_FONT } from "../load-font";
-import { HEADER, SAFE } from "../layout";
+import React from 'react';
+import { KEI_FONT } from '../load-font';
+import { HEADER, SAFE } from '../layout';
+import { THEME } from '../theme';
+import data from '../dual_scene_data.json';
+import { requireTextFits } from '../text-layout';
 
-interface HeaderBarProps {
-  isSpeaking?: boolean;
-  subTitle?: string;
-}
-
+interface HeaderBarProps { isSpeaking?: boolean; subTitle?: string; }
 export const HeaderBar: React.FC<HeaderBarProps> = ({ subTitle }) => {
-  return (
-    <div
-      style={{
-        position: "absolute",
-        top: `${HEADER.top}px`,
-        left: `${SAFE.left}px`,
-        width: `${SAFE.right - SAFE.left}px`,
-        height: `${HEADER.height}px`,
-        display: "flex",
-        alignItems: "stretch",
-        justifyContent: "space-between",
-        gap: "32px",
-        zIndex: 30,
-      }}
-    >
-      {/* Left: Program title (two lines so both telops fit inside title safe) */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          background: "rgba(255, 255, 255, 0.95)",
-          padding: "0 24px",
-          borderRadius: "14px",
-          borderLeft: "8px solid #1b5e20",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.12)",
-          fontFamily: KEI_FONT,
-          color: "#1b5e20",
-          whiteSpace: "nowrap",
-        }}
-      >
-        <span style={{ fontSize: "15px", lineHeight: 1.2, letterSpacing: "1px" }}>
-          徳島県徳島市 シティプロモーション
-        </span>
-        <span style={{ fontSize: "30px", lineHeight: 1.15, letterSpacing: "1px" }}>
-          〜阿波おどりと水都のまち〜
-        </span>
-      </div>
-
-      {/* Right: Corner telop (gold frame + deep green) */}
-      {subTitle && (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            background: "linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%)",
-            color: "#ffffff",
-            padding: "0 28px",
-            borderRadius: "14px",
-            border: "3px solid #ffd54f",
-            boxShadow: "0 4px 12px rgba(27, 94, 32, 0.3)",
-            fontSize: "30px",
-            fontFamily: KEI_FONT,
-            letterSpacing: "1px",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {subTitle}
-        </div>
-      )}
+  const { program } = data;
+  requireTextFits(program.title, 30, HEADER.leftWidth - 56, '番組名');
+  requireTextFits(program.eyebrow, 15, HEADER.leftWidth - 56, '番組名の上段');
+  if (subTitle) requireTextFits(subTitle, 30, HEADER.rightWidth - 56, '右上テロップ');
+  return <div style={{ position: 'absolute', top: HEADER.top, left: SAFE.left,
+    width: SAFE.right - SAFE.left, height: HEADER.height, display: 'flex',
+    justifyContent: 'space-between', gap: HEADER.gap, zIndex: 30, fontFamily: KEI_FONT }}>
+    <div style={{ boxSizing: 'border-box', width: HEADER.leftWidth, flexShrink: 0,
+      display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 24px',
+      borderLeft: `6px solid ${THEME.green}`, borderRadius: 12, background: THEME.paper,
+      boxShadow: THEME.shadow, color: THEME.green }}>
+      <span style={{ fontSize: 15, lineHeight: 1.4, color: THEME.muted }}>{program.eyebrow}</span>
+      <span style={{ fontSize: 30, lineHeight: 1.2, whiteSpace: 'nowrap' }}>{program.title}</span>
     </div>
-  );
+    {subTitle && <div style={{ maxWidth: HEADER.rightWidth, boxSizing: 'border-box',
+      display: 'flex', alignItems: 'center', padding: '0 24px', borderRadius: 12,
+      border: `3px solid ${THEME.gold}`, background: `linear-gradient(120deg, ${THEME.green}, #317757)`,
+      color: 'white', fontSize: 30, whiteSpace: 'nowrap', boxShadow: THEME.shadow }}>{subTitle}</div>}
+  </div>;
 };

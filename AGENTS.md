@@ -1,5 +1,20 @@
 # ずんだもん＆四国めたん 解説動画制作ルール（AGENTS.md）
 
+
+## 制作データの編集入口（更新済み）
+
+- 台本・番組名・画像・表情の編集元は **`content/episode.json`** 一つ。
+- `src/dual_scene_data.json` は生成物。Python内のSCENESや生成JSONの二重編集は不要。
+- 画面だけの変更: `npm run sync` → `npm run preview` → 目視確認 → `npm run render`。
+- セリフ変更: VOICEVOXを起動し `npm run audio:dual`。変更した音声のみ再合成。
+- 一つのlineは一人の話者。`speaker` は `zundamon` / `metan`。話者交代を固定フレームで実装しない。
+- 表情は `expressions` で二人それぞれに指定。口パクは音量、まばたきは専用PNGに連動。
+- 対応PSDの抽出は `npm run characters`。別キャラのPSDはレイヤー対応が必要。
+- 見出し38px・要点24px・字幕33pxを維持。字幕は最大2行で自動ページ分割。要点は短く3行以内。
+- 全シーンの静止画一覧は `out/review/index.html`。完全版は `out/zundamon_metan.mp4`。
+- 詳しい編集方法は `docs/AI_PROMPT_GUIDE.md`。旧手順と異なる場合はこの更新内容を使う。
+
+
 このワークスペースでRemotionとVOICEVOXを用いた解説・掛け合い動画を制作・改修する際は、以下のルールを厳格に遵守してください。
 
 ---
@@ -39,7 +54,7 @@
 
 3. **中央カードのイラスト**:
    - `public/images/cards/topicNN_<内容>.jpg` に 1720×770（2.23:1）で置く。全話を「明るいTVアニメの背景美術風」で統一し、**文字・ロゴ・数字とキャラクターは描かない**。
-   - 差し替え時は `scripts/generate_dual_audio.py` の `SCENES` と `src/dual_scene_data.json` の両方の `image` を更新する。手順はスキル `.agents/skills/remotion-video-workflow` の「カードイラストの作り方」を参照。
+   - 差し替え時は `content/episode.json` の `topics[].image` を更新し、`npm run sync` を実行する。手順はスキル `.agents/skills/remotion-video-workflow` の「カードイラストの作り方」を参照。
 
 4. **エンディング**:
    - 本編の最後に必ず `src/components/DualOutro.tsx`（約6.7秒: キャラ登場＋紙吹雪 → 「ご視聴ありがとうございました！」 → クレジット → アイリスアウト → 「おしまい」）を付け、尺は `src/Root.tsx` で `totalFrames + OUTRO_FRAMES` とする。

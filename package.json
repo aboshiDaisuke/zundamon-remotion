@@ -3,14 +3,22 @@
   "version": "1.0.0",
   "description": "Zundamon explainer video using Remotion and VOICEVOX",
   "scripts": {
-    "start": "remotion preview src/index.ts",
-    "build": "remotion render src/index.ts DualExplainer out/zundamon_metan.mp4 --concurrency=8",
-    "render": "remotion render src/index.ts DualExplainer out/zundamon_metan.mp4 --concurrency=8",
-    "still": "remotion still src/index.ts DualExplainer out/preview.png --frame=750",
+    "start": "npm run sync && remotion studio src/index.ts",
+    "build": "npm run render",
+    "render": "npm run sync && remotion render src/index.ts DualExplainer out/zundamon_metan.mp4 --concurrency=4",
+    "still": "npm run sync && remotion still src/index.ts DualExplainer out/preview.png --frame=750",
     "audio": "node scripts/run_python.js scripts/generate_audio.py",
     "audio:dual": "node scripts/run_python.js scripts/generate_dual_audio.py",
     "clean": "node scripts/clean_out.js",
-    "serve:web": "python3 -m http.server 8088 --directory website || python -m http.server 8088 --directory website"
+    "serve:web": "python3 -m http.server 8088 --directory website || python -m http.server 8088 --directory website",
+    "check": "node scripts/run_python.js scripts/generate_dual_audio.py --check && tsc --noEmit",
+    "doctor": "node scripts/doctor.js",
+    "sync": "node scripts/run_python.js scripts/generate_dual_audio.py --cached",
+    "preview": "npm run sync && node scripts/review.js",
+    "video": "npm run audio:dual && npm run check && node scripts/review.js && npm run render",
+    "characters": "node scripts/run_python.js scripts/extract_psd_parts.py",
+    "test": "node scripts/run_python.js -m unittest discover -s scripts -p test_*.py",
+    "sample": "npm run render && node scripts/update_sample.js"
   },
   "dependencies": {
     "@remotion/bundler": "^4.0.218",

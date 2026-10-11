@@ -1,36 +1,12 @@
-/**
- * Cross-Platform Out Directory Cleaner
- * Keeps only the latest final mp4 video and deletes intermediate previews.
- * Works identically on macOS, Windows, and Linux.
- */
-
-const fs = require("fs");
-const path = require("path");
-
-const OUT_DIR = path.join(__dirname, "..", "out");
-const KEEP_FILES = new Set(["zundamon_metan.mp4"]);
-
-if (!fs.existsSync(OUT_DIR)) {
-  console.log("out/ directory does not exist. Nothing to clean.");
-  process.exit(0);
+/** Remove only known generated previews; preserve final and unrelated files. */
+const fs = require('node:fs');
+const path = require('node:path');
+const dir = path.resolve(__dirname, '../out');
+if (!fs.existsSync(dir)) process.exit(0);
+let count = 0;
+for (const file of fs.readdirSync(dir)) {
+  if (!/^(preview(?:_.*)?|still_.*)\.png$/.test(file) && !/^test_.*\.wav$/.test(file)) continue;
+  const target = path.join(dir, file);
+  if (fs.lstatSync(target).isFile()) { fs.unlinkSync(target); count++; }
 }
-
-const files = fs.readdirSync(OUT_DIR);
-let deletedCount = 0;
-
-for (const file of files) {
-  if (!KEEP_FILES.has(file)) {
-    const fullPath = path.join(OUT_DIR, file);
-    try {
-      const stat = fs.statSync(fullPath);
-      if (stat.isFile()) {
-        fs.unlinkSync(fullPath);
-        deletedCount++;
-      }
-    } catch (e) {
-      console.warn(`Could not delete: ${file}`, e.message);
-    }
-  }
-}
-
-console.log(`Cleaned out/ directory. Removed ${deletedCount} intermediate file(s). Kept: ${Array.from(KEEP_FILES).join(", ")}`);
+console.log(`中間プレビュー ${count}件を整理しました。完成動画と out/review/ は保持します。`);

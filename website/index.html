@@ -107,7 +107,7 @@
         <span class="pill-tag">EASY SETUP & AUTOMATION</span>
         <h2 class="section-title">ゼロからの導入 ＆ 立ち絵の自動化</h2>
         <p class="section-subtitle">
-          準備はたったの2つだけ。立ち絵素材もPSDをそのまま放り込めば口パクまで全自動で動きます。
+          準備はたったの2つだけ。同梱の立ち絵ですぐに始められ、対応PSDから口パク・まばたき差分も生成できます。
         </p>
       </div>
 
@@ -172,15 +172,15 @@
         <div class="psd-content">
           <div class="psd-icon-wrap">🎨</div>
           <div class="psd-text-wrap">
-            <h3 class="psd-title">立ち絵は「PSDファイルをそのまま放り込むだけ」でOK！</h3>
+            <h3 class="psd-title">立ち絵は対応PSDからまとめて自動抽出</h3>
             <p class="psd-desc">
-              パーツの切り抜きや画像編集ソフトでの加合作業は<strong>一切不要</strong>です。坂本アヒル様の「ずんだもん立ち絵素材.psd」や「四国めたん立ち絵素材.psd」を<strong>プロジェクト直下にそのまま置くだけ</strong>で、スクリプトが目・口・眉・身体のレイヤーを自動抽出します。
+              パーツの切り抜きや画像編集ソフトでの加合作業は<strong>一切不要</strong>です。坂本アヒル様の「ずんだもん立ち絵素材.psd」や「四国めたん立ち絵素材.psd」を<strong>プロジェクト直下に置き、npm run characters を実行</strong>すると、スクリプトが目・口・眉・身体のレイヤーを自動抽出します。
             </p>
             <div class="psd-features-list">
               <span class="psd-feat-item">✔ <strong>自動口パク（リップシンク）</strong>: 音声の再生に合わせて口が自然に開閉</span>
-              <span class="psd-feat-item">✔ <strong>自動目パチ（まばたき）</strong>: ランダムな周期で自然にまばたきアニメーション</span>
+              <span class="psd-feat-item">✔ <strong>自動目パチ（まばたき）</strong>: 二人のタイミングをずらして自然にまばたき</span>
               <span class="psd-feat-item">✔ <strong>自動バウンド演出</strong>: セリフを喋り始める瞬間にピョコッと可愛くジャンプ</span>
-              <span class="psd-feat-item">✔ <strong>感情表情連動</strong>: ドヤ顔、困り顔、笑顔、怒り顔を台本に合わせて自動切り替え</span>
+              <span class="psd-feat-item">✔ <strong>感情表情連動</strong>: ドヤ顔、困り顔、笑顔、驚き顔を台本に合わせて切り替え</span>
             </div>
           </div>
         </div>
@@ -195,7 +195,7 @@
             <h3 class="vibe-power-title">立ち絵や声を変えれば、無限のバージョンが作れる！</h3>
           </div>
           <p class="vibe-power-desc">
-            ずんだもん＆四国めたんだけでなく、VOICEVOXに収録されている多彩なキャラクター（春日部つむぎ、冥鳴ひまり、玄野武宏など）に声を変えたり、お好みの立ち絵PSDを放り込むだけでOK！
+            ずんだもん＆四国めたんだけでなく、VOICEVOXに収録されている多彩なキャラクター（春日部つむぎ、冥鳴ひまり、玄野武宏など）に声を変えたり、別の立ち絵を使うこともできます。別キャラクターには音声設定とPSDレイヤーの対応が必要です。
             テーマやジャンル（IT解説、歴史、商品レビュー、雑談コント）に合わせて、あなただけのオリジナル動画チャンネルを何本でも量産できます。
           </p>
           <div class="vibe-power-list">
@@ -205,7 +205,7 @@
             </div>
             <div class="vibe-power-item">
               <span>🎨</span>
-              <div><strong>好みの立ち絵PSDを置くだけ</strong>で自動口パク・目パチが即連動</div>
+              <div><strong>対応PSDを配置して抽出コマンドを実行</strong>すると口パク・目パチが連動</div>
             </div>
             <div class="vibe-prompt-bubble">
               💬 <strong>つぶやき例：</strong>「声を春日部つむぎにして、IT用語の解説動画にして！」
@@ -291,10 +291,18 @@
 以下のルールに従い、ずんだもんと四国めたんの掛け合い動画を制作・修正してください。
 （このプロジェクトは macOS および Windows の両方で動作します）
 
+### 【0. 編集する場所】
+- 台本・番組名・画像・表情は `content/episode.json` にまとめる。
+- `src/dual_scene_data.json` は自動生成。直接編集しない。
+- 1セリフは1話者。speakerは zundamon / metan、expressionsで二人の表情を指定。
+- 見出しは短く、要点は3行以内。長文字幕は最大2行ずつ表示する。
+
 ### 【1. 実行コマンド（OS共通）】
 - 音声合成＆フレーム同期: `npm run audio:dual`
-- 静止画点検（事前確認）: `npm run still`
+- 画面だけの変更を同期: `npm run sync`
+- 全セリフとエンディングの静止画一覧: `npm run preview`（out/review/index.html）
 - フル動画レンダリング: `npm run render`
+- 紹介ページの動画も差し替える: `npm run sample`
 - 中間ファイル掃除: `npm run clean`
 
 ### 【2. 画面レイアウト（セーフゾーン・被りゼロの絶対分離原則）】
@@ -313,10 +321,10 @@
 - ユーザーから提供されたネタは1台詞で終わらせず、ずんだもんとめたんの「3〜5往復の掛け合いコント」として深掘りすること。
 
 ### 【5. 成果物整理】
-- 書き出し完了後は、`out/` 内を最新動画1本にクリーンアップすること。
+- 完全版は `out/zundamon_metan.mp4`。中間プレビューは `npm run clean` で整理し、関係のないファイルを削除しない。
 
 ### 【6. キャラ変更・素材調達・画像直接生成ルール】
-- 登場キャラクターや声は、VOICEVOXのキャラクターIDや立ち絵PSDを差し替えるだけで簡単に別バージョンに変更可能。
+- 対応する坂本アヒル様のPSDからは `npm run characters` で口パク・まばたき差分を生成する。別キャラクターのPSDにはレイヤー対応が必要。
 - ユーザーから「〇〇に合うフリー素材を探して」と依頼された場合、相手先サーバーに負荷をかける過剰なスクレイピングは絶対に避け、規約の明確な商用フリー素材サイト（みんちりえ、DOVA-SYNDROME等）から安全に調達・配置すること。
 - 画像生成機能を持つAI（Antigravity、ChatGPT/DALL-E等）を使用している場合、外部サイトから探す代わりに、チャット指示で解説用イラストや背景画像をプロジェクト内に直接生成・配置して動画に組み込むことが可能です。
 
@@ -419,8 +427,8 @@
         </div>
 
         <div class="video-wrapper">
-          <video id="sampleVideo" controls poster="assets/public/backgrounds/minchirie_living.jpg" preload="metadata">
-            <source src="assets/zundamon_metan.mp4?v=20260923" type="video/mp4">
+          <video id="sampleVideo" controls poster="assets/video-poster.jpg?v=6b2112637932" preload="metadata">
+            <source src="assets/zundamon_metan.mp4?v=6b2112637932" type="video/mp4">
             お使いのブラウザは動画タグに対応していません。
           </video>
         </div>
@@ -432,17 +440,17 @@
             <span class="chapter-nav-status" id="currentChapterText">再生位置: 0:00</span>
           </div>
           <div class="chapter-buttons">
-            <button class="ch-btn active" data-time="0">0:00 オープニング</button>
-            <button class="ch-btn" data-time="6.4">0:06 電車ゼロ・汽車</button>
-            <button class="ch-btn highlight" data-time="15.2">🔥 0:15 イオン＆神戸ナンバー（コント）</button>
-            <button class="ch-btn" data-time="53.3">0:53 百貨店消滅</button>
-            <button class="ch-btn" data-time="62.0">1:02 阿波踊りと361日</button>
-            <button class="ch-btn" data-time="71.3">1:11 関西のTVが映る</button>
-            <button class="ch-btn" data-time="77.0">1:17 徳島ラーメン</button>
-            <button class="ch-btn" data-time="85.0">1:25 銘菓「小男鹿」</button>
-            <button class="ch-btn" data-time="91.6">1:31 ごめんなさいの味</button>
-            <button class="ch-btn" data-time="101.0">1:41 フィナーレ</button>
-            <button class="ch-btn" data-time="117.3">1:57 エンディング</button>
+            <button class="ch-btn active" data-time="0">0:00 四国の東の玄関口・徳島市</button>
+            <button class="ch-btn" data-time="6.766666666666667">0:06 「電車」ではなく「汽車」</button>
+            <button class="ch-btn" data-time="15.8">0:15 神戸ナンバーの意外な正体</button>
+            <button class="ch-btn" data-time="55.766666666666666">0:55 百貨店がなくなった街</button>
+            <button class="ch-btn" data-time="64.8">1:04 阿波おどり、その熱気と日常</button>
+            <button class="ch-btn" data-time="74.46666666666667">1:14 徳島は「実質関西」？</button>
+            <button class="ch-btn" data-time="80.6">1:20 ご飯が進む徳島ラーメン</button>
+            <button class="ch-btn" data-time="89">1:29 特別な贈り物「小男鹿」</button>
+            <button class="ch-btn" data-time="95.96666666666667">1:35 誠意を込めた「小男鹿」</button>
+            <button class="ch-btn" data-time="105.8">1:45 語りたくなる、徳島の魅力</button>
+            <button class="ch-btn" data-time="117.76666666666667">1:57 エンディング</button>
           </div>
         </div>
       </div>

@@ -1,40 +1,18 @@
-import { useEffect, useState } from "react";
-import { continueRender, delayRender, staticFile } from "remotion";
+import { useEffect, useState } from 'react';
+import { cancelRender, continueRender, delayRender, staticFile } from 'remotion';
 
-let globalLoaded = false;
-
-export const useEnsureKeiFont = () => {
-  const [handle] = useState(() => {
-    if (globalLoaded || typeof window === "undefined") return null;
-    return delayRender("Loading KeiFontFamily");
-  });
-
-  useEffect(() => {
-    if (!handle) return;
-    if (globalLoaded) {
-      continueRender(handle);
-      return;
-    }
-
-    const font = new FontFace(
-      "KeiFontFamily",
-      `url(${staticFile("fonts/keifont.ttf")})`
-    );
-
-    font
-      .load()
-      .then((f) => {
-        document.fonts.add(f);
-        document.fonts.ready.then(() => {
-          globalLoaded = true;
-          continueRender(handle);
-        });
-      })
-      .catch((err) => {
-        console.warn("Font load warning:", err);
-        continueRender(handle);
-      });
-  }, [handle]);
-};
-
+let fontPromise: Promise<void> | undefined;
 export const KEI_FONT = "'KeiFontFamily', sans-serif";
+export const useEnsureKeiFont = () => {
+  const [ready, setReady] = useState(false);
+  const [handle] = useState(() => delayRender('けいフォントを読み込み中'));
+  useEffect(() => {
+    fontPromise ??= (async () => {
+      const face = await new FontFace('KeiFontFamily', `url(${staticFile('fonts/keifont.ttf')})`).load();
+      document.fonts.add(face);
+      await document.fonts.ready;
+    })();
+    fontPromise.then(() => { setReady(true); continueRender(handle); }).catch(cancelRender);
+  }, [handle]);
+  return ready;
+};

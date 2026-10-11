@@ -1,46 +1,14 @@
-/**
- * Cross-Platform Python Script Runner
- * Works seamlessly on macOS, Windows, and Linux.
- * Automatically detects whether to use 'python3' or 'python'.
- */
-
-const { spawn } = require("child_process");
-const process = require("process");
-
+const { spawnSync } = require('node:child_process');
+const path = require('node:path');
 const args = process.argv.slice(2);
-if (args.length === 0) {
-  console.error("Usage: node scripts/run_python.js <script.py> [args...]");
-  process.exit(1);
+if (!args.length) { console.error('Pythonスクリプトを指定してください。'); process.exit(1); }
+const candidates = process.platform === 'win32' ? ['python', 'py', 'python3'] : ['python3', 'python'];
+for (const executable of candidates) {
+  const probe = spawnSync(executable, ['-c', 'import sys; sys.exit(0 if sys.version_info >= (3, 9) else 1)']);
+  if (probe.error || probe.status !== 0) continue;
+  const result = spawnSync(executable, args, { stdio: 'inherit', cwd: path.resolve(__dirname, '..') });
+  // A script failure must not run the same mutating operation a second time.
+  process.exit(result.status ?? 1);
 }
-
-function runWithCommand(cmd) {
-  return new Promise((resolve) => {
-    const proc = spawn(cmd, args, { stdio: "inherit", shell: true });
-    proc.on("error", () => resolve(false));
-    proc.on("close", (code) => {
-      resolve(code === 0);
-    });
-  });
-}
-
-async function main() {
-  // Try 'python3' first (typical on macOS / Linux)
-  const isWindows = process.platform === "win32";
-  const preferredCmds = isWindows ? ["python", "py", "python3"] : ["python3", "python"];
-
-  for (const cmd of preferredCmds) {
-    try {
-      const success = await runWithCommand(cmd);
-      if (success) {
-        process.exit(0);
-      }
-    } catch (e) {
-      // Try next
-    }
-  }
-
-  console.error("Error: Could not execute Python. Please ensure Python 3 is installed and in your PATH.");
-  process.exit(1);
-}
-
-main();
+console.error('Python 3.9以上が見つかりません。Pythonを導入してから再実行してください。');
+process.exit(1);

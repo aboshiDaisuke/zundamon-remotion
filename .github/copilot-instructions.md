@@ -1,5 +1,20 @@
 # GitHub Copilot / Codex Instructions: Remotion Zundamon Video Studio
 
+
+## 制作データの編集入口（更新済み）
+
+- 台本・番組名・画像・表情の編集元は **`content/episode.json`** 一つ。
+- `src/dual_scene_data.json` は生成物。Python内のSCENESや生成JSONの二重編集は不要。
+- 画面だけの変更: `npm run sync` → `npm run preview` → 目視確認 → `npm run render`。
+- セリフ変更: VOICEVOXを起動し `npm run audio:dual`。変更した音声のみ再合成。
+- 一つのlineは一人の話者。`speaker` は `zundamon` / `metan`。話者交代を固定フレームで実装しない。
+- 表情は `expressions` で二人それぞれに指定。口パクは音量、まばたきは専用PNGに連動。
+- 対応PSDの抽出は `npm run characters`。別キャラのPSDはレイヤー対応が必要。
+- 見出し38px・要点24px・字幕33pxを維持。字幕は最大2行で自動ページ分割。要点は短く3行以内。
+- 全シーンの静止画一覧は `out/review/index.html`。完全版は `out/zundamon_metan.mp4`。
+- 詳しい編集方法は `docs/AI_PROMPT_GUIDE.md`。旧手順と異なる場合はこの更新内容を使う。
+
+
 ## Project Overview
 This repository builds high-production explainer/dialogue videos featuring Zundamon (ずんだもん) and Shikoku Metan (四国めたん) using Remotion (React 18 + TypeScript) and VOICEVOX.
 It is fully cross-platform (macOS and Windows).
@@ -29,7 +44,7 @@ The single source of truth for coordinates is `src/layout.ts`; never hard-code p
 ## Card Illustrations
 - Save as `public/images/cards/topicNN_<subject>.jpg` at 1720x770 (2.23:1).
 - One consistent style for every topic: bright TV-anime background art. No text, logos or numbers, and no characters (they already stand on both sides).
-- When replacing, update `image` in both `scripts/generate_dual_audio.py` (`SCENES`) and `src/dual_scene_data.json`. See the "カードイラストの作り方" section of `.agents/skills/remotion-video-workflow/SKILL.md`.
+- When replacing, update `topics[].image` in `content/episode.json` and run `npm run sync`. See the "カードイラストの作り方" section of `.agents/skills/remotion-video-workflow/SKILL.md`.
 
 ## Ending
 - Always end with `src/components/DualOutro.tsx` (~6.7s: characters + confetti -> "ご視聴ありがとうございました！" -> credits -> iris-out -> "おしまい"). `src/Root.tsx` sets the duration to `totalFrames + OUTRO_FRAMES`.

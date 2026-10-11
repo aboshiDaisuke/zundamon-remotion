@@ -7,6 +7,10 @@ and composite customized expressions for both characters.
 
 import os
 import glob
+import sys
+
+BLINK_ONLY = "--blink-only" in sys.argv
+ONLY = sys.argv[sys.argv.index("--only") + 1] if "--only" in sys.argv else None
 from psd_tools import PSDImage
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,8 +32,28 @@ def find_layer(group, name):
     return None
 
 def set_exclusive(group, target_name):
+    if group is None or not any(layer.name == target_name for layer in group):
+        raise ValueError(f"PSD内に必要なレイヤーがありません: {target_name}")
     for l in group:
         l.visible = (l.name == target_name)
+
+# 分解保存（各個別レイヤーのtopil()または切り抜き）
+def save_layer_recursively(layer, prefix, dest_dir):
+    if layer.is_group():
+        sub_dir = os.path.join(dest_dir, layer.name.replace("!", "").replace("*", "").strip())
+        os.makedirs(sub_dir, exist_ok=True)
+        for child in layer:
+            save_layer_recursively(child, prefix, sub_dir)
+    else:
+        try:
+            im = layer.topil()
+            if im:
+                safe_name = layer.name.replace("!", "").replace("*", "").replace("/", "_").strip()
+                file_name = f"{safe_name}.png"
+                im.save(os.path.join(dest_dir, file_name))
+        except Exception as e:
+            pass
+
 
 # ==========================================
 # 1. 四国めたん PSD の分解・保存
@@ -40,26 +64,10 @@ if metan_psd_files:
     print(f"Loading Metan PSD: {metan_path}")
     psd_m = PSDImage.open(metan_path)
 
-    # 分解保存（各個別レイヤーのtopil()または切り抜き）
-    def save_layer_recursively(layer, prefix, dest_dir):
-        if layer.is_group():
-            sub_dir = os.path.join(dest_dir, layer.name.replace("!", "").replace("*", "").strip())
-            os.makedirs(sub_dir, exist_ok=True)
-            for child in layer:
-                save_layer_recursively(child, prefix, sub_dir)
-        else:
-            try:
-                im = layer.topil()
-                if im:
-                    safe_name = layer.name.replace("!", "").replace("*", "").replace("/", "_").strip()
-                    file_name = f"{safe_name}.png"
-                    im.save(os.path.join(dest_dir, file_name))
-            except Exception as e:
-                pass
-
     print("Extracting Metan individual layer parts...")
-    for top_l in psd_m:
-        save_layer_recursively(top_l, "metan", os.path.join(PARTS_DIR, "metan"))
+    if not BLINK_ONLY:
+        for top_l in psd_m:
+            save_layer_recursively(top_l, "metan", os.path.join(PARTS_DIR, "metan"))
 
     # シーンに応じためたんの完成立ち絵差分生成
     r_arm = find_layer(psd_m, "!右腕")
@@ -121,7 +129,10 @@ if metan_psd_files:
         }
     }
 
+    metan_variants["metan_closed"] = metan_variants["metan_closed_proud"]
     for name, cfg in metan_variants.items():
+        if ONLY and name != ONLY:
+            continue
         set_exclusive(r_arm, cfg["r_arm"])
         set_exclusive(l_arm, cfg["l_arm"])
         set_exclusive(color, cfg["color"])
@@ -131,9 +142,15 @@ if metan_psd_files:
         if symbols:
             for s in symbols:
                 s.visible = (s.name == cfg["symbols"])
-        out_f = os.path.join(CHAR_DIR, f"{name}.png")
-        psd_m.composite(force=True).save(out_f)
-        print(f"Generated Metan: {name}.png")
+        if not BLINK_ONLY:
+            psd_m.composite(force=True).save(os.path.join(CHAR_DIR, f"{name}.png"))
+        for eye_state in (["blink"] if BLINK_ONLY else ["normal", "blink"]):
+            set_exclusive(eye, "*目閉じ" if eye_state == "blink" else cfg["eye"])
+            for mouth_state, layer in [("open", "*わあー"), ("close", "*ほほえみ")]:
+                set_exclusive(mouth, layer)
+                suffix = f"_blink_{mouth_state}" if eye_state == "blink" else f"_{mouth_state}"
+                psd_m.composite(force=True).save(os.path.join(CHAR_DIR, f"{name}{suffix}.png"))
+        print(f"Generated Metan: {name} (口パク・まばたき)", flush=True)
 
 # ==========================================
 # 2. ずんだもん PSD の分解・保存
@@ -145,8 +162,9 @@ if zunda_psd_files:
     psd_z = PSDImage.open(zunda_path)
 
     print("Extracting Zundamon individual layer parts...")
-    for top_l in psd_z:
-        save_layer_recursively(top_l, "zundamon", os.path.join(PARTS_DIR, "zundamon"))
+    if not BLINK_ONLY:
+        for top_l in psd_z:
+            save_layer_recursively(top_l, "zundamon", os.path.join(PARTS_DIR, "zundamon"))
 
     # シーンに応じたずんだもんの完成立ち絵差分生成
     fuku1 = find_layer(psd_z, "*服装1")
@@ -206,7 +224,10 @@ if zunda_psd_files:
         }
     }
 
+    zundamon_variants["zunda_shocked"] = {**zundamon_variants["zunda_apology"], "eye": "*目セット", "eyebrow": "*困り眉1"}
     for name, cfg in zundamon_variants.items():
+        if ONLY and name != ONLY:
+            continue
         set_exclusive(zr_arm, cfg["r_arm"])
         set_exclusive(zl_arm, cfg["l_arm"])
         set_exclusive(zcolor, cfg["color"])
@@ -216,8 +237,17 @@ if zunda_psd_files:
         if zsymbols:
             for s in zsymbols:
                 s.visible = (s.name == cfg["symbols"])
-        out_f = os.path.join(CHAR_DIR, f"{name}.png")
-        psd_z.composite(force=True).save(out_f)
-        print(f"Generated Zundamon: {name}.png")
+        if not BLINK_ONLY:
+            psd_z.composite(force=True).save(os.path.join(CHAR_DIR, f"{name}.png"))
+        for eye_state in (["blink"] if BLINK_ONLY else ["normal", "blink"]):
+            set_exclusive(zeye, "*UU" if eye_state == "blink" else cfg["eye"])
+            for mouth_state, layer in [("open", "*ほあー"), ("close", "*むー")]:
+                set_exclusive(zmouth, layer)
+                suffix = f"_blink_{mouth_state}" if eye_state == "blink" else f"_{mouth_state}"
+                psd_z.composite(force=True).save(os.path.join(CHAR_DIR, f"{name}{suffix}.png"))
+        print(f"Generated Zundamon: {name} (口パク・まばたき)", flush=True)
+
+if not metan_psd_files and not zunda_psd_files:
+    raise SystemExit("対応PSDがありません。ルートにずんだもん・四国めたんのPSDを配置してください。")
 
 print("\nAll PSD parts and composite images extracted and generated successfully!")

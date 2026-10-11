@@ -8,6 +8,9 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
+import { requireTextFits } from "../text-layout";
+import { CARD } from "../layout";
+import data from "../dual_scene_data.json";
 import { Background } from "./Background";
 import { KEI_FONT } from "../load-font";
 import { CHARACTER, SUBTITLE } from "../layout";
@@ -31,6 +34,7 @@ const CONFETTI = Array.from({ length: 56 }, (_, i) => ({
 
 export const DualOutro: React.FC = () => {
   const frame = useCurrentFrame();
+  requireTextFits(data.program.outro, 36, CARD.width - 64, "エンディングのメッセージ");
   const { fps } = useVideoConfig();
 
   const charIn = spring({ frame, fps, config: { damping: 12, stiffness: 120 } });
@@ -171,7 +175,7 @@ export const DualOutro: React.FC = () => {
               transform: `translateY(${(1 - subIn) * 16}px)`,
             }}
           >
-            汽車に乗って、徳島市で会いましょう！
+            {data.program.outro}
           </div>
         </div>
 
@@ -187,8 +191,11 @@ export const DualOutro: React.FC = () => {
             fontSize: "22px",
             fontFamily: KEI_FONT,
             lineHeight: 1.7,
-            color: "#ffffff",
-            textShadow: "0 1px 4px rgba(0,0,0,0.6)",
+            color: "#205b42",
+            textShadow: "none",
+            background: "rgba(255,254,251,0.96)",
+            borderRadius: 16,
+            padding: "10px 0",
             opacity: creditIn,
             zIndex: 30,
           }}

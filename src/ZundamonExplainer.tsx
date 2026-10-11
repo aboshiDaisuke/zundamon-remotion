@@ -61,7 +61,7 @@ const SingleScene: React.FC<SceneItemProps> = ({ scene, index }) => {
 };
 
 export const ZundamonExplainer: React.FC = () => {
-  useEnsureKeiFont();
+  const ready = useEnsureKeiFont();
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
 
@@ -76,6 +76,7 @@ export const ZundamonExplainer: React.FC = () => {
     }
   );
 
+  if (!ready) return null;
   return (
     <div
       style={{
